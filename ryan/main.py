@@ -44,14 +44,12 @@ def main():
     args = parser.parse_args()
 
     if args.mode == 'train':
-        if args.scale:
-            print("scaling...")
         print('Input path: ' + args.input)
-        train(args.model, args.input, args.epochs)
+        train(args.model, args.input, args.epochs, args.scale)
     else:
         print("Incorrect command line arguments")
 
-def train(model, input_path, epochs):
+def train(model, input_path, epochs, scale_input):
     """Train the neural network model.
     Args:
         model (str): The neural network architecture.
@@ -70,6 +68,13 @@ def train(model, input_path, epochs):
     targets = np.load(input_path + 'first_chunk_targets.npy')
     specs = np.load(input_path + 'first_chunk_specs.npy')
 
+    if scale_input:
+        print("scaling input")
+        from sklearn.preprocessing import StandardScaler
+        scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
+        scaler.fit(specs)
+        specs = scaler.transform(specs)
+
     specs = np.reshape(specs, specs.shape + (1,))
 
     # TODO: use model param
@@ -81,7 +86,6 @@ def train(model, input_path, epochs):
 
     model.fit(x=specs,
               y=targets,
-              batch_size=256,
               epochs=epochs,
               validation_split=0.2)
 
