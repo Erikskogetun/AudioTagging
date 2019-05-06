@@ -1,10 +1,7 @@
 # https://github.com/tqbl/dcase2018_task2/blob/master/task2/main.py
 import argparse
-import glob
-import os
 import sys
 
-import numpy as np
 # import pandas as pd
 # from tqdm import tqdm
 #
@@ -12,9 +9,8 @@ import numpy as np
 # import file_io as io
 # import utils
 
-from sklearn.preprocessing import StandardScaler
-
-import convnet_models
+import training
+import data_synthesis
 
 # python3 main.py train --scale --input ../../input_data/ --epochs 100 --batch 64
 
@@ -41,11 +37,21 @@ import convnet_models
 # 3976/3976 [==============================] - 76s 19ms/step - loss: 3.6667 - acc: 0.1715 - val_loss: 6.4663 - val_acc: 0.1237
 # Epoch 5/45
 # 3976/3976 [==============================] - 76s 19ms/step - loss: 3.2398 - acc: 0.2689 - val_loss: 7.6223 - val_acc: 0.1429
+# ...
+# Epoch 43/45
+# 3976/3976 [==============================] - 76s 19ms/step - loss: 0.2689 - acc: 0.9193 - val_loss: 2.1712 - val_acc: 0.6076
+# Epoch 44/45
+# 3976/3976 [==============================] - 76s 19ms/step - loss: 0.2556 - acc: 0.9243 - val_loss: 2.1302 - val_acc: 0.5976
+# Epoch 45/45
+# 3976/3976 [==============================] - 76s 19ms/step - loss: 0.3484 - acc: 0.9095 - val_loss: 2.6337 - val_acc: 0.5352
+
+# Looks like current model caps out at ~0.60 val acc
 
 """
 TODO:
 Assume this model gets us to decent validation accuracy. What else do we need to do before running final tests?:
     Test other models than vgg13?
+        Committed!
     
     Choose how to deal with uneven sound file lengths.
     
@@ -63,6 +69,8 @@ Assume this model gets us to decent validation accuracy. What else do we need to
     Generate test set which is partitioned from training/val (CURRENTLY USING ALL DATA FOR TRAIN/VAL!).
     
     Define function to load trained model and evaluate it on test set.
+    
+    Think about ensembling at prediction stage. Could show model every chunk from audio file and sum prediction vectors.
 """
 
 
@@ -79,76 +87,28 @@ def main():
     parser_train.add_argument('--input',
                               default='input/')
     parser_train.add_argument('--output', default='temp')
-    parser_train.add_argument('--scale', action='store_true')
+    # parser_train.add_argument('--scale', action='store_true')
     parser_train.add_argument('--epochs', type=int, default=1)
     parser_train.add_argument('--batch', type=int, default=None)
+    parser_train.add_argument('--val_split', type=float, default=0.15)
+    parser_train.add_argument('--extra_chunks', action='store_true')
+
+    # Add sub-parser for generate_data
+    parser_generate_data = subparsers.add_parser('generate_data')
+    parser_generate_data.add_argument('--wavs_dir', default=None)
+    parser_generate_data.add_argument('--output', default=None)
+    parser_generate_data.add_argument('--chunk_size', type=int, default=128)
+    parser_generate_data.add_argument('--test_frac', type=float, default=0.2)
 
     args = parser.parse_args()
 
     if args.mode == 'train':
         print('Input path: ' + args.input)
-        train(args.model, args.input, args.output, args.epochs, args.scale, args.batch)
+        training.train(args.model, args.input, args.output, args.epochs, args.batch, args.val_split, args.extra_chunks)
+    elif args.mode == 'generate_data':
+        data_synthesis.generate_data(args.wavs_dir, args.output, args.chunk_size, args.test_frac)
     else:
         print("Incorrect command line arguments")
-
-
-def train(model_name, input_path, output_file, epochs, scale_input, batch_size):
-    """
-    Train the neural network model. Saves trained model to output/[input_path].h5
-    Args:
-        model_name (str): The neural network architecture.
-        input_path (str): The path to the input data files.
-        output_file (str): The filename to save the fitted model to. (In output/ dir)
-        epochs (int): The number of epochs to train the model for.
-        scale_input(bool): True indicates that the input will be scaled before training.
-        batch_size(int): The batch size to use while training.
-    Note:
-        For reproducibility, the random seed is set to a fixed value.
-    """
-    # Try to create reproducible results
-    np.random.seed(1234)
-
-    # Load training data
-    targets = np.load(input_path + 'first_chunk_targets.npy')
-    specs = np.load(input_path + 'first_chunk_specs.npy')
-
-    # Scale input if specified
-    if scale_input:
-        print('Scaling input...', end='')
-        x, y, z = specs.shape
-        specs = specs.reshape((x * y, z))
-        scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
-        scaler.fit(specs)
-        specs = scaler.transform(specs).reshape((x, y, z))
-        print('Done!')
-
-    # Reshape specs to conform to model expected dimensions.
-    # TODO: investigate why this is needed. Last dim is 1? (1 Channels?)
-    specs = np.reshape(specs, specs.shape + (1,))
-
-    # Get model from convnet_models.py
-    if model_name == 'vgg13':
-        model = convnet_models.vgg13(specs.shape[1:], targets.shape[1])
-    else:
-        print('Specified model does not exist!: ' + model_name)
-        return
-
-    # Compile model
-    model.compile(loss='categorical_crossentropy',
-                  optimizer='adam',
-                  metrics=['accuracy'])
-
-    # Fit the model
-    model.fit(x=specs,
-              y=targets,
-              epochs=epochs,
-              batch_size=batch_size,
-              validation_split=0.2)
-
-    # Save the model
-    if not os.path.exists('output'):
-        os.makedirs('output')
-    model.save('output/' + output_file + '.h5')
 
 
 if __name__ == '__main__':
