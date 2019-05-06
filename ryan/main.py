@@ -88,14 +88,14 @@ def train(model, input_path, epochs, scale_input, batch_size):
                   optimizer='adam',
                   metrics=['accuracy'])
 
-    # model.fit(x=specs,
-    #           y=targets,
-    #           epochs=epochs,
-    #           batch_size=batch_size,
-    #           validation_split=0.2)
-    #
-    # model.save('trained_model.h5')
+    model.fit(x=specs,
+              y=targets,
+              epochs=epochs,
+              batch_size=batch_size,
+              validation_split=0.2)
 
+    model.save('trained_model.h5')
 
+# python3 main.py --scale --input ../../input_data --epochs 100 --batch 64
 if __name__ == '__main__':
     sys.exit(main())
