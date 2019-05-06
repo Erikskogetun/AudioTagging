@@ -12,7 +12,20 @@ import numpy as np
 # import file_io as io
 # import utils
 
+from sklearn.preprocessing import StandardScaler
+
 import convnet_models
+
+# Non-scaled:
+# 3976/3976 [==============================] - 84s 21ms/step - loss: 4.6387 - acc: 0.0490 - val_loss: 5.9569 - val_acc: 0.0161
+# Epoch 2/5
+# 3976/3976 [==============================] - 75s 19ms/step - loss: 4.2357 - acc: 0.0732 - val_loss: 5.1581 - val_acc: 0.0634
+# Epoch 3/5
+# 3976/3976 [==============================] - 75s 19ms/step - loss: 3.9095 - acc: 0.1315 - val_loss: 6.2956 - val_acc: 0.0463
+# Epoch 4/5
+# 3976/3976 [==============================] - 75s 19ms/step - loss: 3.4736 - acc: 0.2394 - val_loss: 6.7605 - val_acc: 0.1298
+# Epoch 5/5
+# 3976/3976 [==============================] - 75s 19ms/step - loss: 3.0297 - acc: 0.3161 - val_loss: 5.0649 - val_acc: 0.1791
 
 def main():
     parser = argparse.ArgumentParser()
@@ -22,34 +35,22 @@ def main():
     parser_train = subparsers.add_parser('train')
     parser_train.add_argument('--model',
                               choices=['vgg13'],
-                              default='vgg13',
-                              )
+                              default='vgg13')
     parser_train.add_argument('--input',
                               default='input/')
     parser_train.add_argument('--scale', action='store_true')
     parser_train.add_argument('--epochs', type=int, default=1)
-    # parser_train.add_argument('--fold', type=int, default=-1)
-    # parser_train.add_argument('--class_weight', action='store_true')
-    # parser_train.add_argument('--sample_weight', type=float)
-
-    # Add sub-parser for inference
-    # parser_predict = subparsers.add_parser('predict')
-    # parser_predict.add_argument('dataset', choices=['training', 'test'])
-    # parser_predict.add_argument('--fold', type=int, default=-1)
-
-    # Add sub-parser for evaluation
-    # parser_evaluate = subparsers.add_parser('evaluate')
-    # parser_evaluate.add_argument('fold', type=int)
+    parser_train.add_argument('--batch', type=int, default=None)
 
     args = parser.parse_args()
 
     if args.mode == 'train':
         print('Input path: ' + args.input)
-        train(args.model, args.input, args.epochs, args.scale)
+        train(args.model, args.input, args.epochs, args.scale, args.batch)
     else:
         print("Incorrect command line arguments")
 
-def train(model, input_path, epochs, scale_input):
+def train(model, input_path, epochs, scale_input, batch_size):
     """Train the neural network model.
     Args:
         model (str): The neural network architecture.
@@ -62,18 +63,21 @@ def train(model, input_path, epochs, scale_input):
     """
     # Try to create reproducible results
     # TODO
-    # np.random.seed(cfg.initial_seed)
+    np.random.seed(1234)
 
     # Load training data
     targets = np.load(input_path + 'first_chunk_targets.npy')
     specs = np.load(input_path + 'first_chunk_specs.npy')
 
     if scale_input:
-        print("scaling input")
-        from sklearn.preprocessing import StandardScaler
+        print('Scaling input...', end='')
+
+        x, y, z = specs.shape
+        specs = specs.reshape((x * y, z))
         scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
         scaler.fit(specs)
-        specs = scaler.transform(specs)
+        specs = scaler.transform(specs).reshape((x, y, z))
+        print('Done!')
 
     specs = np.reshape(specs, specs.shape + (1,))
 
@@ -84,12 +88,13 @@ def train(model, input_path, epochs, scale_input):
                   optimizer='adam',
                   metrics=['accuracy'])
 
-    model.fit(x=specs,
-              y=targets,
-              epochs=epochs,
-              validation_split=0.2)
-
-    model.save('trained_model.h5')
+    # model.fit(x=specs,
+    #           y=targets,
+    #           epochs=epochs,
+    #           batch_size=batch_size,
+    #           validation_split=0.2)
+    #
+    # model.save('trained_model.h5')
 
 
 if __name__ == '__main__':
