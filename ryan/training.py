@@ -35,7 +35,7 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         extra_specs = np.load(input_path + 'train_extra_chunks.npy')
         assert len(extra_targets) == len(extra_specs)
 
-        specs = np.concatenate((specs + extra_specs))
+        specs = np.concatenate((specs, extra_specs))
         targets = np.concatenate((targets, extra_targets))
         assert len(specs) > len(extra_specs)
 
