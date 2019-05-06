@@ -25,14 +25,14 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     np.random.seed(1234)
 
     # Load training data
-    targets = np.load(input_path + 'chunked_targets.npy')
-    specs = np.load(input_path + 'chunked_specs.npy')
+    targets = np.load(input_path + 'train_main_targets.npy')
+    specs = np.load(input_path + 'train_main_chunks.npy')
     assert len(targets) == len(specs)
 
     # If using extra chunks (more than one chunk per wav for longer wavs), load and append.
     if extra_chunks:
-        extra_targets = np.load(input_path + 'extra_chunked_targets.npy')
-        extra_specs = np.load(input_path + 'extra_chunked_specs.npy')
+        extra_targets = np.load(input_path + 'train_extra_targets.npy')
+        extra_specs = np.load(input_path + 'train_extra_chunks.npy')
         assert len(extra_targets) == len(extra_specs)
 
         specs = specs + extra_specs
