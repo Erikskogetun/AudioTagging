@@ -35,8 +35,9 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         extra_specs = np.load(input_path + 'train_extra_chunks.npy')
         assert len(extra_targets) == len(extra_specs)
 
-        specs = specs + extra_specs
-        targets = targets + extra_targets
+        specs = np.concatenate((specs + extra_specs))
+        targets = np.concatenate((targets, extra_targets))
+        assert len(specs) > len(extra_specs)
 
     """
     Scaling didn't appear to matter much and complicates evaluation and retraining. Removing for now.
