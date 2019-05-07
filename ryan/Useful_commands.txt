@@ -1,0 +1,6 @@
+python3 main.py generate_data --wavs_dir ../../train_curated/ --output ../../chunked_data/
+
+python3 main.py generate_data --wavs_dir ../../train_curated/ --output ../../chunked_data_silr/ --remove_silence
+
+python3 main.py train --input ../../chunked_data_silr/ --epochs 40 --batch 128 --output no_extra_40_epoch --extra_chunks
+
