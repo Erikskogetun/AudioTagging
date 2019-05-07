@@ -50,7 +50,12 @@ def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, rem
 
             # Generate spectrogram of this file.
             # TODO: take params to allow non default arguments of _filename_to_spec
-            spectrogram = _filename_to_spec(file_path)
+            try:
+                spectrogram = _filename_to_spec(file_path)
+            except ValueError:
+                print('Value error occurred with file ' + file_path +
+                      '! Skipping this file. (filecount ' + str(file_count) + ')')
+                continue
 
             # Remove temp file if it exists.
             if remove_silence:
