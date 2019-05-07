@@ -99,6 +99,7 @@ def main():
     parser_generate_data.add_argument('--output', default=None)
     parser_generate_data.add_argument('--chunk_size', type=int, default=128)
     parser_generate_data.add_argument('--test_frac', type=float, default=0.2)
+    parser_generate_data.add_argument('--remove_silence', action='store_true')
 
     args = parser.parse_args()
 
@@ -106,7 +107,7 @@ def main():
         print('Input path: ' + args.input)
         training.train(args.model, args.input, args.output, args.epochs, args.batch, args.val_split, args.extra_chunks)
     elif args.mode == 'generate_data':
-        data_synthesis.generate_data(args.wavs_dir, args.output, args.chunk_size, args.test_frac)
+        data_synthesis.generate_data(args.wavs_dir, args.output, args.chunk_size, args.test_frac, args.remove_silence)
     else:
         print("Incorrect command line arguments")
 

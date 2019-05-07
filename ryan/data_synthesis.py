@@ -9,7 +9,7 @@ labels_list = ['Bark', 'Raindrop', 'Finger_snapping', 'Run', 'Whispering', 'Acou
 # transformed_data_path = '../../transformed_data/'
 
 # it is expected that train_curated.csv is parallel to raw_data_path
-def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2):
+def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, remove_silence=False):
     # Get filenames to target vector map
     filenames_to_labels = _filenames_to_labels(raw_data_path + '../')
     print('Loaded labels of ' + str(len(filenames_to_labels.keys())) + ' files.')
@@ -37,10 +37,27 @@ def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2):
             label = filenames_to_labels[file]
             assert label
 
-            # TODO: Remove silence
+            # Remove silence from audio file.
+            aug_audio_file = "tmp_sil.wav"
+            if remove_silence:
+                # file = file_path
+                aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
+                os.system("sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
+                # os.system('../../sox-14.4.2/sox ' + file + ' ' + aug_audio_file + ' ' + aug_cmd)
+
+                assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
+                file_path = aug_audio_file
+
             # Generate spectrogram of this file.
             # TODO: take params to allow non default arguments of _filename_to_spec
             spectrogram = _filename_to_spec(file_path)
+
+            # Remove temp file if it exists.
+            if remove_silence:
+                if os.path.exists(aug_audio_file):
+                    os.remove(aug_audio_file)
+                else:
+                    print('Tried to remove ' + aug_audio_file + ' but doesn\'t exist!')
 
             # Chunk the spectrogram.
             chunks = _spectrogram_to_chunks(spectrogram, chunk_size)
