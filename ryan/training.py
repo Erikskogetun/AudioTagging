@@ -67,10 +67,14 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     def exact_pred(y_true, y_pred):
         return K.min(K.cast(K.equal(y_true, K.round(y_pred)), dtype='float16'), axis=-1)
 
+    def full_multi_label_metric(y_true, y_pred):
+        comp = K.equal(y_true, K.round(y_pred))
+        return K.cast(K.all(comp, axis=-1), K.floatx())
+
     # Compile model
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=['binary_accuracy', exact_pred])
+                  metrics=['binary_accuracy', exact_pred, full_multi_label_metric])
 
     # Fit the model
     model.fit(x=specs,
