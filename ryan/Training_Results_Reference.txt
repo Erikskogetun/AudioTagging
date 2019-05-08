@@ -83,3 +83,45 @@ Epoch 39/40
 Epoch 40/40
 15849/15849 [==============================] - 73s 5ms/step - loss: 0.2547 - acc: 0.9187 - val_loss: 2.1117 - val_acc: 0.6789
 
+
+
+
+--------------- sil rm and all chunks. binary cross entropy loss -----------------
+
+
+Epoch 23/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 0.0027 - binary_accuracy: 0.9991 - exact_pred: 0.9387 - val_loss: 0.0414 - val_binary_accuracy: 0.9916 - val_exact_pred: 0.5316
+Epoch 24/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 7.2900e-04 - binary_accuracy: 0.9998 - exact_pred: 0.9877 - val_loss: 0.0335 - val_binary_accuracy: 0.9930 - val_exact_pred: 0.6003
+Epoch 25/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 2.6680e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9973 - val_loss: 0.0314 - val_binary_accuracy: 0.9936 - val_exact_pred: 0.6339
+Epoch 26/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 1.5600e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9987 - val_loss: 0.0340 - val_binary_accuracy: 0.9929 - val_exact_pred: 0.6060
+Epoch 27/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 1.8986e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9976 - val_loss: 0.0333 - val_binary_accuracy: 0.9935 - val_exact_pred: 0.6178
+Epoch 28/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 9.0686e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9995 - val_loss: 0.0324 - val_binary_accuracy: 0.9937 - val_exact_pred: 0.6325
+Epoch 29/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 5.0480e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9997 - val_loss: 0.0319 - val_binary_accuracy: 0.9939 - val_exact_pred: 0.6410
+Epoch 30/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 5.3377e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9997 - val_loss: 0.0309 - val_binary_accuracy: 0.9942 - val_exact_pred: 0.6439
+Epoch 31/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 4.1897e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9997 - val_loss: 0.0326 - val_binary_accuracy: 0.9939 - val_exact_pred: 0.6432
+Epoch 32/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 2.9345e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9999 - val_loss: 0.0323 - val_binary_accuracy: 0.9940 - val_exact_pred: 0.6428
+Epoch 33/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 5.8476e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9992 - val_loss: 0.0360 - val_binary_accuracy: 0.9932 - val_exact_pred: 0.6056
+Epoch 34/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 1.4592e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9983 - val_loss: 0.0363 - val_binary_accuracy: 0.9933 - val_exact_pred: 0.6142
+Epoch 35/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 0.0069 - binary_accuracy: 0.9977 - exact_pred: 0.8587 - val_loss: 0.1702 - val_binary_accuracy: 0.9854 - val_exact_pred: 0.1119
+Epoch 36/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 0.0069 - binary_accuracy: 0.9977 - exact_pred: 0.8493 - val_loss: 0.0636 - val_binary_accuracy: 0.9893 - val_exact_pred: 0.3611
+Epoch 37/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 0.0013 - binary_accuracy: 0.9996 - exact_pred: 0.9731 - val_loss: 0.0390 - val_binary_accuracy: 0.9921 - val_exact_pred: 0.5574
+Epoch 38/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 4.2824e-04 - binary_accuracy: 0.9999 - exact_pred: 0.9933 - val_loss: 0.0332 - val_binary_accuracy: 0.9933 - val_exact_pred: 0.6121
+Epoch 39/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 1.5287e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9986 - val_loss: 0.0324 - val_binary_accuracy: 0.9934 - val_exact_pred: 0.6239
+Epoch 40/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 9.2872e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9993 - val_loss: 0.0314 - val_binary_accuracy: 0.9938 - val_exact_pred: 0.6403

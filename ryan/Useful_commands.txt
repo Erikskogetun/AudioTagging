@@ -6,3 +6,4 @@ python3 main.py train --input ../../chunked_data_silr/ --epochs 40 --batch 128 -
 
 python3 -m pip install librosa
 
+python3 main.py train --input ../../chunked_data_silr/ --epochs 40 --batch 128 --output tmp --extra_chunks
