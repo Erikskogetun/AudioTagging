@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import keras.backend as K
 
 import convnet_models
 
@@ -63,10 +64,13 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         print('Specified model does not exist!: ' + model_name)
         return
 
+    def exact_pred(y_true, y_pred):
+        return K.equal(y_true, K.round(y_pred))
+
     # Compile model
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=['binary_accuracy', 'categorical_accuracy'])
+                  metrics=['binary_accuracy', 'categorical_accuracy', exact_pred])
 
     # Fit the model
     model.fit(x=specs,
