@@ -64,9 +64,9 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         return
 
     # Compile model
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=['accuracy'])
+                  metrics=['binary_accuracy', 'categorical_accuracy'])
 
     # Fit the model
     model.fit(x=specs,

@@ -4,3 +4,5 @@ python3 main.py generate_data --wavs_dir ../../train_curated/ --output ../../chu
 
 python3 main.py train --input ../../chunked_data_silr/ --epochs 40 --batch 128 --output no_extra_40_epoch --extra_chunks
 
+python3 -m pip install librosa
+

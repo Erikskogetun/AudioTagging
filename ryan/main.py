@@ -5,6 +5,7 @@ import sys
 import training
 import data_synthesis
 import evaluation
+
 # python3 main.py train --scale --input ../../input_data/ --epochs 100 --batch 64
 
 # Non-scaled:
@@ -88,7 +89,7 @@ def main():
 
     # Add sub-parser for generate_data
     parser_generate_data = subparsers.add_parser('generate_data')
-    parser_generate_data.add_argument('--wavs_dir', default=None)
+    parser_generate_data.add_argument('--input', default=None)
     parser_generate_data.add_argument('--output', default=None)
     parser_generate_data.add_argument('--chunk_size', type=int, default=128)
     parser_generate_data.add_argument('--test_frac', type=float, default=0.2)
@@ -96,8 +97,8 @@ def main():
 
     # Add sub-parser for evaluation
     parser_evaluate = subparsers.add_parser('evaluate')
-    parser_evaluate.add_argument('--model_path', type=str)
-    parser_evaluate.add_argument('--test_set_path', type=str)
+    parser_evaluate.add_argument('--model', type=str)
+    parser_evaluate.add_argument('--test_set', type=str)
     parser_evaluate.add_argument('--threshold', type=float, default=0.5)
 
     args = parser.parse_args()
@@ -106,9 +107,9 @@ def main():
         print('Input path: ' + args.input)
         training.train(args.model, args.input, args.output, args.epochs, args.batch, args.val_split, args.extra_chunks)
     elif args.mode == 'generate_data':
-        data_synthesis.generate_data(args.wavs_dir, args.output, args.chunk_size, args.test_frac, args.remove_silence)
+        data_synthesis.generate_data(args.input, args.output, args.chunk_size, args.test_frac, args.remove_silence)
     elif args.mode == 'evaluate':
-        evaluation.evaluate(args.model_path, args.test_set_path, args.threshold)
+        evaluation.evaluate(args.model, args.test_set, args.threshold)
     else:
         print("Incorrect command line arguments")
 

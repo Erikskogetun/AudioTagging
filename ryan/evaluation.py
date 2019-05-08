@@ -27,6 +27,7 @@ def evaluate(model_path, test_set_path, label_threshold):
             normalized_p = [1 if x > label_threshold else 0 for x in p[0]]
             if sample_index < 10:
                 print(len(normalized_p))
+                print("p: ", list(p))
                 print('normalized_p: ', list(normalized_p))
                 print('correct: ', list(test_labels[sample_index]))
             if list(normalized_p) == list(test_labels[sample_index]):
@@ -74,9 +75,10 @@ def evaluate(model_path, test_set_path, label_threshold):
     print("Single Label Accuracy: " + str(single_label_accuracy))
     print("Multi Label Accuracy: " + str(multi_label_accuracy))
     print("Fraction multi-label: " + str(frac_multi_label))
+    print("Fraction multi-label prediction: ")
 
     # TODO: Confusion matrix, other stats, save results to file...
+    # TODO: n-label confusion matrix!
     # Chunk accuracy
     # One label accuracy
     # More than one label accuracy
-
