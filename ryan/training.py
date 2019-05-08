@@ -65,12 +65,12 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         return
 
     def exact_pred(y_true, y_pred):
-        return K.min(K.equal(y_true, K.round(y_pred)))
+        return K.min(K.equal(y_true, K.round(y_pred)), axis=-1)
 
     # Compile model
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=['binary_accuracy', 'categorical_accuracy', exact_pred])
+                  metrics=['binary_accuracy', exact_pred])
 
     # Fit the model
     model.fit(x=specs,
