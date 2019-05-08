@@ -2,13 +2,6 @@
 import argparse
 import sys
 
-# import pandas as pd
-# from tqdm import tqdm
-#
-# import config as cfg
-# import file_io as io
-# import utils
-
 import training
 import data_synthesis
 import evaluation
