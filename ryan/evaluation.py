@@ -1,5 +1,6 @@
 import numpy as np
 from keras.models import load_model
+import keras.backend as K
 
 
 def evaluate(model_path, test_set_path):
@@ -8,7 +9,14 @@ def evaluate(model_path, test_set_path):
     test_labels = np.load(test_set_path + 'test_labels.npy')
 
     # Load model.
-    model = load_model(model_path)
+    def exact_pred(y_true, y_pred):
+        return K.min(K.cast(K.equal(y_true, K.round(y_pred)), dtype='float16'), axis=-1)
+
+    def full_multi_label_metric(y_true, y_pred):
+        comp = K.equal(y_true, K.round(y_pred))
+        return K.cast(K.all(comp, axis=-1), K.floatx())
+
+    model = load_model(model_path, custom_objects={"exact_pred": exact_pred, "full_multi_label_metric": full_multi_label_metric})
 
     # For each set of chunks in test_chunks, make predictions for each of them.
     num_chunks = 0
