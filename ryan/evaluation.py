@@ -16,7 +16,7 @@ def evaluate(model_path, test_set_path):
         comp = K.equal(y_true, K.round(y_pred))
         return K.cast(K.all(comp, axis=-1), K.floatx())
 
-    model = load_model(model_path, custom_objects={"exact_pred": exact_pred, "full_multi_label_metric": full_multi_label_metric})
+    model = load_model(model_path, custom_objects={"full_multi_label_metric": full_multi_label_metric})
 
     # For each set of chunks in test_chunks, make predictions for each of them.
     num_chunks = 0
