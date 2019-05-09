@@ -69,7 +69,7 @@ def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, rem
 
             """
             Test set should not contain any chunks from files which have chunks in training set!!!
-            We choose to save test set differently than training set.
+            We choose to save the test set differently than the training set.
             Training set rows each correspond to some chunk who's label is saved in same row of 
             corresponding labels file. Just looking at the train_main_chunks and train_extra_labels,
             it is ambiguous which chunks come from the same file.
@@ -117,6 +117,15 @@ def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, rem
     # Sum label vectors.
 
     # Save somehow
+
+
+# Sox silence rm from each
+
+# Sox sum
+
+# Load resulting audio
+
+# Do same as above
 
 
 def _spectrogram_to_chunks(spectrogram, chunk_size):

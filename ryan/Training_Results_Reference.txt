@@ -195,11 +195,30 @@ Epoch 50/50
 15849/15849 [==============================] - 76s 5ms/step - loss: 4.2303e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0359 - val_binary_accuracy: 0.9
 940 - val_full_multi_label_metric: 0.6385
 
+Accuracy is much worse than val_full_multi_label_metric but chunk accuacy is lower? How does that work?
 
+With argmax_zero_labels:
+Accuracy: 0.5949748743718593
+Chunk Accuracy: 0.4239948398193937
+Single-Label target Accuracy: 0.6363636363636364
+Multi-Label target Accuracy: 0.3581081081081081
+Fraction multi-label: 0.1487437185929648
+Multi-label true - Single-label prediction:  57
+Multi-label true - Multi-label prediction:  91
+Single-label true - Single-label prediction:  721
+Single-label true - Multi-label prediction:  126
+Single-label true - Zero prediction:  0
+Multi-label true - Zero prediction:  0
+
+Without:
 Accuracy: 0.5346733668341709
 Chunk Accuracy: 0.4239948398193937
-Single Label Accuracy: 0.5655253837072018
-Multi Label Accuracy: 0.3581081081081081
+Single-Label target Accuracy: 0.5655253837072018
+Multi-Label target Accuracy: 0.3581081081081081
 Fraction multi-label: 0.1487437185929648
-
-Accuracy is much worse than val_full_multi_label_metric but chunk accuacy is lower? How does that work?
+Multi-label true - Single-label prediction:  31
+Multi-label true - Multi-label prediction:  91
+Single-label true - Single-label prediction:  561
+Single-label true - Multi-label prediction:  126
+Single-label true - Zero prediction:  160
+Multi-label true - Zero prediction:  26
