@@ -3,13 +3,12 @@ import csv
 import os
 import librosa
 
-
 labels_list = ['Bark', 'Raindrop', 'Finger_snapping', 'Run', 'Whispering', 'Acoustic_guitar', 'Strum', 'Hi-hat', 'Bass_drum', 'Crowd', 'Cheering', 'Frying_(food)', 'Chewing_and_mastication', 'Fart', 'Bass_guitar', 'Knock', 'Motorcycle', 'Stream', 'Male_singing', 'Crackle', 'Sigh', 'Burping_and_eructation', 'Female_singing', 'Tap', 'Female_speech_and_woman_speaking', 'Accelerating_and_revving_and_vroom', 'Clapping', 'Accordion', 'Zipper_(clothing)', 'Bus', 'Meow', 'Waves_and_surf', 'Microwave_oven', 'Child_speech_and_kid_speaking', 'Buzz', 'Car_passing_by', 'Toilet_flush', 'Purr', 'Church_bell', 'Electric_guitar', 'Marimba_and_xylophone', 'Trickle_and_dribble', 'Traffic_noise_and_roadway_noise', 'Harmonica', 'Male_speech_and_man_speaking', 'Slam', 'Keys_jangling', 'Sink_(filling_or_washing)', 'Water_tap_and_faucet', 'Squeak', 'Cricket', 'Fill_(with_liquid)', 'Skateboard', 'Shatter', 'Drawer_open_or_close', 'Race_car_and_auto_racing', 'Cupboard_open_or_close', 'Computer_keyboard', 'Writing', 'Sneeze', 'Drip', 'Bicycle_bell', 'Applause', 'Printer', 'Gong', 'Glockenspiel', 'Screaming', 'Yell', 'Cutlery_and_silverware', 'Walk_and_footsteps', 'Mechanical_fan', 'Gasp', 'Gurgling', 'Chink_and_clink', 'Tick-tock', 'Chirp_and_tweet', 'Hiss', 'Dishes_and_pots_and_pans', 'Bathtub_(filling_or_washing)', 'Scissors']
-# raw_data_path = '../../raw_data/'
-# transformed_data_path = '../../transformed_data/'
 
-# it is expected that train_curated.csv is parallel to raw_data_path
-def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, remove_silence=False):
+
+def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, remove_silence=False, n_mels=64):
+    # it is expected that train_curated.csv is parallel to raw_data_path
+
     # Get filenames to target vector map
     filenames_to_labels = _filenames_to_labels(raw_data_path + '../')
     print('Loaded labels of ' + str(len(filenames_to_labels.keys())) + ' files.')
@@ -40,18 +39,13 @@ def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, rem
             # Remove silence from audio file.
             aug_audio_file = "tmp_sil.wav"
             if remove_silence:
-                # file = file_path
-                aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
-                os.system("../../sox-14.4.2/src/sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
-                # os.system('../../sox-14.4.2/sox ' + file + ' ' + aug_audio_file + ' ' + aug_cmd)
-
-                assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
+                _remove_silence(file_path, aug_audio_file)
                 file_path = aug_audio_file
 
             # Generate spectrogram of this file.
             # TODO: take params to allow non default arguments of _filename_to_spec
             try:
-                spectrogram = _filename_to_spec(file_path)
+                spectrogram = _filename_to_spec(file_path, n_mels=n_mels)
             except ValueError:
                 print('Value error occurred with file ' + file_path +
                       '! Skipping this file. (filecount ' + str(file_count) + ')')
@@ -126,6 +120,12 @@ def generate_data(raw_data_path, output_path, chunk_size=128, test_frac=0.2, rem
 # Load resulting audio
 
 # Do same as above
+
+def _remove_silence(file_path, aug_audio_file):
+    aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
+    os.system("../../sox-14.4.2/src/sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
+
+    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
 
 
 def _spectrogram_to_chunks(spectrogram, chunk_size):
