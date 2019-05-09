@@ -42,12 +42,34 @@ def evaluate(model_path, test_set_path):
             if list(normalized_p) == list(test_labels[sample_index]):
                 chunk_correct += 1
 
+        """
+        Was using this before but often resulted in prediction vector with all zeros
+        """
         # Generate the resulting label vector for all chunks in this chunk set.
-        res_label_vector = [0] * test_labels.shape[1]
-        for i in range(len(res_label_vector)):
-            if max(curr_predictions[:, i]) > 0.5:
-                res_label_vector[i] = 1
-        predictions.append(res_label_vector)
+        # res_label_vector = [0] * test_labels.shape[1]
+        # for i in range(len(res_label_vector)):
+        #     if max(curr_predictions[:, i]) > 0.5:
+        #         res_label_vector[i] = 1
+        # predictions.append(res_label_vector)
+
+        """
+        Try this instead
+        """
+        max_columns = np.max(curr_predictions, axis=0)
+        # print("max_columns shape: ", max_columns.shape)
+        if np.sum(np.round(max_columns)) != 0:
+            predictions.append(list(np.round(max_columns)))
+        else:
+            print("Prediction of all zeros found!")
+            best_index = np.argmax(max_columns, axis=0)[0]
+            print("max_columns: ", max_columns)
+            print("best_index", best_index)
+            lv = [0] * test_labels.shape[1]
+            lv[best_index] = 1
+            predictions.append(lv)
+            # predictions.append(np.zeros((len(max_columns),)))
+        # print("max_columns dim: ", max_columns.shape)
+        # print(max_columns)
 
     # Compare resulting label vectors against target label vectors in test_labels.
     correct = 0
