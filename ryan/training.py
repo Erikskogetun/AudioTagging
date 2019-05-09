@@ -29,8 +29,10 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
 
     # Get lists of all target and spec files to use in training.
     target_files = [input_path + 'train_main_labels.npy']  # Ordered list of files containing target label vectors to train on.
-    spec_files = [input_path + 'train_main_labels.npy']  # Ordered list of files containing specs to train on.
+    spec_files = [input_path + 'train_main_chunks.npy']  # Ordered list of files containing specs to train on.
 
+    print("Loading target files: " + str(target_files))
+    print("Loading spec files: " + str(spec_files))
     if extra_chunks:
         target_files.append(input_path + 'train_extra_labels.npy')
         spec_files.append(input_path + 'train_extra_chunks.npy')
@@ -47,7 +49,6 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         specs = np.concatenate((specs, np.load(spec_files[i])))
 
     assert len(targets) == len(specs)
-
 
     """
     Try just adding spectrograms as data mixing technique.
