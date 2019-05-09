@@ -76,20 +76,26 @@ def evaluate(model_path, test_set_path):
     stmp = 0  # Single target, multi prediction
     mtsp = 0  # Multi target, single prediction
     mtmp = 0  # Multi target, multi prediction
+    stzp = 0  # Single target, no prediction
+    mtzp = 0  # Multi target, no prediction
     for i in range(len(test_labels)):
         if sum(test_labels[i]) > 1:
             if sum(predictions[i]) > 1:
                 mtmp += 1
             elif sum(predictions[i]) == 1:
                 mtsp += 1
+            else:
+                mtzp += 1
         elif sum(test_labels[i]) == 1:
             if sum(predictions[i]) > 1:
                 stmp += 1
             elif sum(predictions[i]) == 1:
                 stsp += 1
+            else:
+                stzp += 1
 
-    # assert stsp + stmp + mtsp + mtmp == len(test_labels)
-    #
+    assert stsp + stmp + mtsp + mtmp + stzp + mtzp == len(test_labels)
+
     # Print results.
     print(" Done!")
     print("Accuracy: " + str(accuracy))
@@ -103,7 +109,8 @@ def evaluate(model_path, test_set_path):
     print("Multi-label true - Multi-label prediction: ", mtmp)
     print("Single-label true - Single-label prediction: ", stsp)
     print("Single-label true - Multi-label prediction: ", stmp)
-    print("Other?: ", len(test_labels) - (stsp + stmp + mtsp + mtmp))
+    print("Single-label true - Zero prediction: ", stzp)
+    print("Multi-label true - Zero prediction: ", mtzp)
 
     # TODO: Confusion matrix, other stats, save results to file...
     # TODO: n-label confusion matrix!
