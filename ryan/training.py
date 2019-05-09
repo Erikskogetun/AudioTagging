@@ -56,16 +56,25 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     if generate_mixes:
         orig_len = len(specs)
         for i in range(orig_len):
-            j = randint(0, orig_len)
+            j = randint(0, orig_len - 1)
             if i == j:
                 continue
             spec_a = specs[i]
             spec_b = specs[j]
+            # print("spec_a shape: ", spec_a.shape)
+            # print("spec_b shape: ", spec_b.shape)
+
             spec_new = np.add(spec_a, spec_b)
-            target_new = np.max(targets[i], targets[j])
-            specs = np.concatenate((specs, spec_new))
-            targets = np.concatenate((targets, target_new))
-            if i < 50:
+            target_new = np.maximum(targets[i], targets[j])
+            # print("targets shape: ", targets.shape)
+            # print("target_new shape: ", target_new.shape)
+            # print("spec_new shape: ", spec_new.shape)
+            # print("spec_s shape: ", specs.shape)
+
+            specs = np.concatenate((specs, spec_new.reshape((1,) + spec_new.shape)))
+            # print("concatenated shape: ", specs.shape)
+            targets = np.concatenate((targets, target_new.reshape((1,) + target_new.shape)))
+            if i < 5:
                 print("Target1, Target2, New_Target")
                 print(targets[i])
                 print(targets[j])
