@@ -86,6 +86,7 @@ def main():
     parser_train.add_argument('--batch', type=int, default=None)
     parser_train.add_argument('--val_split', type=float, default=0.15)
     parser_train.add_argument('--extra_chunks', action='store_true')
+    parser_train.add_argument('--generate_mixes', action='store_true')
 
     # Add sub-parser for generate_data
     parser_generate_data = subparsers.add_parser('generate_data')
@@ -107,7 +108,7 @@ def main():
 
     if args.mode == 'train':
         print('Input path: ' + args.input)
-        training.train(args.model, args.input, args.output, args.epochs, args.batch, args.val_split, args.extra_chunks)
+        training.train(args.model, args.input, args.output, args.epochs, args.batch, args.val_split, args.extra_chunks, args.generate_mixes)
     elif args.mode == 'generate_data':
         data_synthesis.generate_data(args.input, args.output, args.chunk_size, args.test_frac, args.remove_silence, args.n_mels)
     elif args.mode == 'evaluate':

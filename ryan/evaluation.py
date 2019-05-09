@@ -60,12 +60,10 @@ def evaluate(model_path, test_set_path, argmax_zero_labels):
             if np.sum(np.round(max_columns)) != 0:
                 predictions.append(list(np.round(max_columns)))
             else:
-                print("Prediction of all zeros found! Setting argmax index to 1.")
                 best_index = np.argmax(max_columns, axis=0)
                 lv = [0] * test_labels.shape[1]
                 # Pycharm is complaining about this but I think it's correct
                 lv[best_index] = 1
-                print("Generated label vector: ", lv)
                 predictions.append(lv)
 
     # Compare resulting label vectors against target label vectors in test_labels.
