@@ -56,6 +56,8 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     if generate_mixes:
         orig_len = len(specs)
         for i in range(orig_len):
+            if i % 25 == 0:
+                print("\r", 'Generating ' + str(i) + ' of ' + str(orig_len), end="")
             j = randint(0, orig_len - 1)
             if i == j:
                 continue
