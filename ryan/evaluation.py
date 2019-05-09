@@ -8,10 +8,6 @@ def evaluate(model_path, test_set_path, argmax_zero_labels):
     test_chunks = np.load(test_set_path + 'test_chunks.npy', allow_pickle=True)
     test_labels = np.load(test_set_path + 'test_labels.npy')
 
-    # Load model.
-    # def exact_pred(y_true, y_pred):
-    #     return K.min(K.cast(K.equal(y_true, K.round(y_pred)), dtype='float16'), axis=-1)
-
     def full_multi_label_metric(y_true, y_pred):
         comp = K.equal(y_true, K.round(y_pred))
         return K.cast(K.all(comp, axis=-1), K.floatx())

@@ -37,8 +37,6 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         target_files.append(input_path + 'train_extra_labels.npy')
         spec_files.append(input_path + 'train_extra_chunks.npy')
 
-    # TODO: add mixture files if specified
-
     assert len(target_files) == len(spec_files)
 
     # Load files
@@ -59,44 +57,17 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
             if i % 25 == 0:
                 print("\r", 'Generating ' + str(i) + ' of ' + str(orig_len), end="")
             j = randint(0, orig_len - 1)
+            # If we happened to pick the same index, just skip this chunk.
             if i == j:
                 continue
             spec_a = specs[i]
             spec_b = specs[j]
-            # print("spec_a shape: ", spec_a.shape)
-            # print("spec_b shape: ", spec_b.shape)
-
             spec_new = np.add(spec_a, spec_b)
             target_new = np.maximum(targets[i], targets[j])
-            # print("targets shape: ", targets.shape)
-            # print("target_new shape: ", target_new.shape)
-            # print("spec_new shape: ", spec_new.shape)
-            # print("spec_s shape: ", specs.shape)
-
             specs = np.concatenate((specs, spec_new.reshape((1,) + spec_new.shape)))
-            # print("concatenated shape: ", specs.shape)
             targets = np.concatenate((targets, target_new.reshape((1,) + target_new.shape)))
-            if i < 5:
-                print("Target1, Target2, New_Target")
-                print(targets[i])
-                print(targets[j])
-                print(target_new)
 
         print("Augmented data with mixes. From " + str(orig_len) + " samples to " + str(len(specs)) + " samples.")
-
-
-    """
-    Scaling didn't appear to matter much and complicates evaluation and retraining. Removing for now.
-    """
-    # # Scale input if specified
-    # if scale_input:
-    #     print('Scaling input...', end='')
-    #     x, y, z = specs.shape
-    #     specs = specs.reshape((x * y, z))
-    #     scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
-    #     scaler.fit(specs)
-    #     specs = scaler.transform(specs).reshape((x, y, z))
-    #     print('Done!')
 
     # Reshape specs to conform to model expected dimensions.
     # TODO: investigate why this is needed. Last dim is 1? (1 Channels?)
@@ -109,12 +80,6 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         print('Specified model does not exist!: ' + model_name)
         return
 
-    """
-    Looks like below fn does same thing so remove this one.
-    """
-    # def exact_pred(y_true, y_pred):
-    #     return K.min(K.cast(K.equal(y_true, K.round(y_pred)), dtype='float16'), axis=-1)
-
     # I think this is reporting 'true' accuracy, that is, if the two labels match exactly (after thresholding at 0.5)
     def full_multi_label_metric(y_true, y_pred):
         comp = K.equal(y_true, K.round(y_pred))
@@ -125,8 +90,6 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
                   optimizer='adam',
                   metrics=['binary_accuracy', full_multi_label_metric])
 
-    # keras.callbacks.EarlyStopping(monitor='binary_accuracy', min_delta=0, patience=0, verbose=0, mode='auto', baseline=None,
-    #                               restore_best_weights=False)
     checkpoint_filepath = 'train_output/' + output_file + '.best.h5'
     checkpoint = ModelCheckpoint(checkpoint_filepath, monitor='val_binary_accuracy', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
