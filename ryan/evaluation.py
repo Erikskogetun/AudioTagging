@@ -61,7 +61,7 @@ def evaluate(model_path, test_set_path):
             predictions.append(list(np.round(max_columns)))
         else:
             print("Prediction of all zeros found!")
-            best_index = np.argmax(max_columns, axis=0)[0]
+            best_index = np.argmax(max_columns, axis=0)
             print("max_columns: ", max_columns)
             print("best_index", best_index)
             lv = [0] * test_labels.shape[1]
