@@ -99,6 +99,7 @@ def main():
     parser_evaluate = subparsers.add_parser('evaluate')
     parser_evaluate.add_argument('--model', type=str)
     parser_evaluate.add_argument('--test_set', type=str)
+    parser_evaluate.add_argument('--argmax_zero_labels', action='store_true')
     # parser_evaluate.add_argument('--threshold', type=float, default=0.5)
 
     args = parser.parse_args()
@@ -109,7 +110,7 @@ def main():
     elif args.mode == 'generate_data':
         data_synthesis.generate_data(args.input, args.output, args.chunk_size, args.test_frac, args.remove_silence)
     elif args.mode == 'evaluate':
-        evaluation.evaluate(args.model, args.test_set)
+        evaluation.evaluate(args.model, args.test_set, args.argmax_zero_labels)
     else:
         print("Incorrect command line arguments")
 

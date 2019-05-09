@@ -3,14 +3,14 @@ from keras.models import load_model
 import keras.backend as K
 
 
-def evaluate(model_path, test_set_path):
+def evaluate(model_path, test_set_path, argmax_zero_labels):
     # Load test set
     test_chunks = np.load(test_set_path + 'test_chunks.npy', allow_pickle=True)
     test_labels = np.load(test_set_path + 'test_labels.npy')
 
     # Load model.
-    def exact_pred(y_true, y_pred):
-        return K.min(K.cast(K.equal(y_true, K.round(y_pred)), dtype='float16'), axis=-1)
+    # def exact_pred(y_true, y_pred):
+    #     return K.min(K.cast(K.equal(y_true, K.round(y_pred)), dtype='float16'), axis=-1)
 
     def full_multi_label_metric(y_true, y_pred):
         comp = K.equal(y_true, K.round(y_pred))
@@ -42,34 +42,31 @@ def evaluate(model_path, test_set_path):
             if list(normalized_p) == list(test_labels[sample_index]):
                 chunk_correct += 1
 
-        """
-        Was using this before but often resulted in prediction vector with all zeros
-        """
-        # Generate the resulting label vector for all chunks in this chunk set.
-        # res_label_vector = [0] * test_labels.shape[1]
-        # for i in range(len(res_label_vector)):
-        #     if max(curr_predictions[:, i]) > 0.5:
-        #         res_label_vector[i] = 1
-        # predictions.append(res_label_vector)
-
-        """
-        Try this instead
-        """
-        max_columns = np.max(curr_predictions, axis=0)
-        # print("max_columns shape: ", max_columns.shape)
-        if np.sum(np.round(max_columns)) != 0:
-            predictions.append(list(np.round(max_columns)))
+        if not argmax_zero_labels:
+            """
+            Was using this before but often resulted in prediction vector with all zeros
+            """
+            # Generate the resulting label vector for all chunks in this chunk set.
+            res_label_vector = [0] * test_labels.shape[1]
+            for i in range(len(res_label_vector)):
+                if max(curr_predictions[:, i]) > 0.5:
+                    res_label_vector[i] = 1
+            predictions.append(res_label_vector)
         else:
-            print("Prediction of all zeros found!")
-            best_index = np.argmax(max_columns, axis=0)
-            print("max_columns: ", max_columns)
-            print("best_index", best_index)
-            lv = [0] * test_labels.shape[1]
-            lv[best_index] = 1
-            predictions.append(lv)
-            # predictions.append(np.zeros((len(max_columns),)))
-        # print("max_columns dim: ", max_columns.shape)
-        # print(max_columns)
+            """
+            Try this instead
+            """
+            max_columns = np.max(curr_predictions, axis=0)
+            if np.sum(np.round(max_columns)) != 0:
+                predictions.append(list(np.round(max_columns)))
+            else:
+                print("Prediction of all zeros found! Setting argmax index to 1.")
+                best_index = np.argmax(max_columns, axis=0)
+                lv = [0] * test_labels.shape[1]
+                # Pycharm is complaining about this but I think it's correct
+                lv[best_index] = 1
+                print("Generated label vector: ", lv)
+                predictions.append(lv)
 
     # Compare resulting label vectors against target label vectors in test_labels.
     correct = 0
@@ -125,7 +122,6 @@ def evaluate(model_path, test_set_path):
     print("Single-Label target Accuracy: " + str(single_label_accuracy))
     print("Multi-Label target Accuracy: " + str(multi_label_accuracy))
     print("Fraction multi-label: " + str(frac_multi_label))
-    print("Fraction multi-label prediction: ")
 
     print("Multi-label true - Single-label prediction: ", mtsp)
     print("Multi-label true - Multi-label prediction: ", mtmp)
@@ -135,7 +131,3 @@ def evaluate(model_path, test_set_path):
     print("Multi-label true - Zero prediction: ", mtzp)
 
     # TODO: Confusion matrix, other stats, save results to file...
-    # TODO: n-label confusion matrix!
-    # Chunk accuracy
-    # One label accuracy
-    # More than one label accuracy
