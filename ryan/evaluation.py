@@ -71,14 +71,38 @@ def evaluate(model_path, test_set_path):
     single_label_accuracy = (correct - num_multi_label_correct) / (len(test_labels) - num_multi_label_samples)
     multi_label_accuracy = num_multi_label_correct / num_multi_label_samples
 
+    # Calculate label count target/prediction matrix.
+    stsp = 0  # Single target, single prediction
+    stmp = 0  # Single target, multi prediction
+    mtsp = 0  # Multi target, single prediction
+    mtmp = 0  # Multi target, multi prediction
+    for i in range(len(test_labels)):
+        if sum(test_labels[i]) > 1:
+            if sum(predictions[i]) > 1:
+                mtmp += 1
+            else:
+                mtsp += 1
+        else:
+            if sum(predictions[i]) > 1:
+                stmp += 1
+            else:
+                stsp += 1
+
+    assert stsp + stmp + mtsp + mtmp == len(test_labels)
+
     # Print results.
     print(" Done!")
     print("Accuracy: " + str(accuracy))
     print("Chunk Accuracy: " + str(chunk_accuracy))
-    print("Single Label Accuracy: " + str(single_label_accuracy))
-    print("Multi Label Accuracy: " + str(multi_label_accuracy))
+    print("Single-Label target Accuracy: " + str(single_label_accuracy))
+    print("Multi-Label target Accuracy: " + str(multi_label_accuracy))
     print("Fraction multi-label: " + str(frac_multi_label))
     print("Fraction multi-label prediction: ")
+
+    print("Multi-label true - Single-label prediction: ", mtsp)
+    print("Multi-label true - Multi-label prediction: ", mtmp)
+    print("Single-label true - Single-label prediction: ", stsp)
+    print("Single-label true - Multi-label prediction: ", stmp)
 
     # TODO: Confusion matrix, other stats, save results to file...
     # TODO: n-label confusion matrix!

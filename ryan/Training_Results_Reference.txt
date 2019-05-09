@@ -125,3 +125,81 @@ Epoch 39/40
 15849/15849 [==============================] - 78s 5ms/step - loss: 1.5287e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9986 - val_loss: 0.0324 - val_binary_accuracy: 0.9934 - val_exact_pred: 0.6239
 Epoch 40/40
 15849/15849 [==============================] - 79s 5ms/step - loss: 9.2872e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9993 - val_loss: 0.0314 - val_binary_accuracy: 0.9938 - val_exact_pred: 0.6403
+
+
+
+
+
+
+
+
+
+-----------------------
+
+python3 main.py train --input ../../chunked_data_silr/ --epochs 50 --batch 128 --output silr_binaryce_50_epoch --extra_chun
+ks
+
+
+Epoch 33/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.6225e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0328 - val_binary_accuracy: 0.9
+939 - val_full_multi_label_metric: 0.6335
+Epoch 34/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.4197e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0331 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 35/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.3077e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0333 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6378
+Epoch 36/50
+15849/15849 [==============================] - 75s 5ms/step - loss: 1.1897e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0334 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6403
+Epoch 37/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.1295e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0335 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6414
+Epoch 38/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.0396e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0338 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 39/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 9.8501e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0337 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6396
+Epoch 40/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 8.7643e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0340 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 41/50
+15849/15849 [==============================] - 75s 5ms/step - loss: 8.1634e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0344 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6396
+Epoch 42/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 7.5383e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0344 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6378
+Epoch 43/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 7.0141e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0346 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 44/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 6.5834e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0348 - val_binary_accuracy: 0.9
+941 - val_full_multi_label_metric: 0.6393
+Epoch 45/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 6.0636e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0348 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6375
+Epoch 46/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 5.5970e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0349 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6403
+Epoch 47/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 5.2051e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0352 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6382
+Epoch 48/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 4.9602e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0352 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6368
+Epoch 49/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 4.4757e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0355 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6346
+Epoch 50/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 4.2303e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0359 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6385
+
+
+Accuracy: 0.5346733668341709
+Chunk Accuracy: 0.4239948398193937
+Single Label Accuracy: 0.5655253837072018
+Multi Label Accuracy: 0.3581081081081081
+Fraction multi-label: 0.1487437185929648
+
+Accuracy is much worse than val_full_multi_label_metric but chunk accuacy is lower? How does that work?
