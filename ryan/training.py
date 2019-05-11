@@ -8,7 +8,7 @@ from random import randint
 import convnet_models
 
 
-def train(model_name, input_path, output_file, epochs, batch_size, val_split, extra_chunks, generate_mixes):
+def train(model_name, input_path, output_file, epochs, batch_size, val_split, extra_chunks, mix_order):
     """
     Train the neural network model. Saves trained model to output/[input_path].h5
     Args:
@@ -20,7 +20,8 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         batch_size (int): The batch size to use while training.
         val_split (float): The fraction of training data to be used as validation data.
         extra_chunks (bool): True indicates to append extra_chunked_specs and extra_chunked_targets to training data.
-        generate_mixes (bool): True indicates to add specs together to make pairs of inputs.
+        # generate_mixes (bool): True indicates to add specs together to make pairs of inputs.
+        mix_order (int): None indicates to not load any mix files. Otherwise specifies max order of mix files to load.
     Note:
         For reproducibility, the random seed is set to a fixed value.
     """
@@ -31,11 +32,15 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     target_files = [input_path + 'train_main_labels.npy']  # Ordered list of files containing target label vectors to train on.
     spec_files = [input_path + 'train_main_chunks.npy']  # Ordered list of files containing specs to train on.
 
-    print("Loading target files: " + str(target_files))
-    print("Loading spec files: " + str(spec_files))
     if extra_chunks:
         target_files.append(input_path + 'train_extra_labels.npy')
         spec_files.append(input_path + 'train_extra_chunks.npy')
+    if mix_order:
+        for i in range(2, mix_order + 1):
+            target_files.append(input_path + 'mixes_chunks_' + str(i) + '.npy')
+            target_files.append(input_path + 'mixes_labels_' + str(i) + '.npy')
+    print("Loading target files: " + str(target_files))
+    print("Loading spec files: " + str(spec_files))
 
     assert len(target_files) == len(spec_files)
 
@@ -51,23 +56,23 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     """
     Try just adding spectrograms as data mixing technique.
     """
-    if generate_mixes:
-        orig_len = len(specs)
-        for i in range(orig_len):
-            if i % 25 == 0:
-                print("\r", 'Generating ' + str(i) + ' of ' + str(orig_len), end="")
-            j = randint(0, orig_len - 1)
-            # If we happened to pick the same index, just skip this chunk.
-            if i == j:
-                continue
-            spec_a = specs[i]
-            spec_b = specs[j]
-            spec_new = np.add(spec_a, spec_b)
-            target_new = np.maximum(targets[i], targets[j])
-            specs = np.concatenate((specs, spec_new.reshape((1,) + spec_new.shape)))
-            targets = np.concatenate((targets, target_new.reshape((1,) + target_new.shape)))
-
-        print("Augmented data with mixes. From " + str(orig_len) + " samples to " + str(len(specs)) + " samples.")
+    # if generate_mixes:
+    #     orig_len = len(specs)
+    #     for i in range(orig_len):
+    #         if i % 25 == 0:
+    #             print("\r", 'Generating ' + str(i) + ' of ' + str(orig_len), end="")
+    #         j = randint(0, orig_len - 1)
+    #         # If we happened to pick the same index, just skip this chunk.
+    #         if i == j:
+    #             continue
+    #         spec_a = specs[i]
+    #         spec_b = specs[j]
+    #         spec_new = np.add(spec_a, spec_b)
+    #         target_new = np.maximum(targets[i], targets[j])
+    #         specs = np.concatenate((specs, spec_new.reshape((1,) + spec_new.shape)))
+    #         targets = np.concatenate((targets, target_new.reshape((1,) + target_new.shape)))
+    #
+    #     print("Augmented data with mixes. From " + str(orig_len) + " samples to " + str(len(specs)) + " samples.")
 
     # Reshape specs to conform to model expected dimensions.
     # TODO: investigate why this is needed. Last dim is 1? (1 Channels?)

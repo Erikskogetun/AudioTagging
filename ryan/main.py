@@ -25,7 +25,8 @@ def main():
     parser_train.add_argument('--batch', type=int, default=None)
     parser_train.add_argument('--val_split', type=float, default=0.15)
     parser_train.add_argument('--extra_chunks', action='store_true')
-    parser_train.add_argument('--generate_mixes', action='store_true')
+    # parser_train.add_argument('--generate_mixes', action='store_true')
+    parser_train.add_argument('--mix_order', type=int, default=None)
 
     # Add sub-parser for generate_data
     parser_generate_data = subparsers.add_parser('generate_data')
@@ -35,6 +36,8 @@ def main():
     parser_generate_data.add_argument('--test_frac', type=float, default=0.2)
     parser_generate_data.add_argument('--remove_silence', action='store_true')
     parser_generate_data.add_argument('--n_mels', type=int, default=64)
+    parser_generate_data.add_argument('--generate_mixes', action='store true')
+    parser_generate_data.add_argument('--mix_order', type=int, default=2)
 
     # Add sub-parser for evaluation
     parser_evaluate = subparsers.add_parser('evaluate')
@@ -47,9 +50,23 @@ def main():
 
     if args.mode == 'train':
         print('Input path: ' + args.input)
-        training.train(args.model, args.input, args.output, args.epochs, args.batch, args.val_split, args.extra_chunks, args.generate_mixes)
+        training.train(args.model,
+                       args.input,
+                       args.output,
+                       args.epochs,
+                       args.batch,
+                       args.val_split,
+                       args.extra_chunks,
+                       args.mix_order)
     elif args.mode == 'generate_data':
-        data_synthesis.generate_data(args.input, args.output, args.chunk_size, args.test_frac, args.remove_silence, args.n_mels)
+        data_synthesis.generate_data(args.input,
+                                     args.output,
+                                     args.chunk_size,
+                                     args.test_frac,
+                                     args.remove_silence,
+                                     args.n_mels,
+                                     args.generate_mixes,
+                                     args.mix_order)
     elif args.mode == 'evaluate':
         evaluation.evaluate(args.model, args.test_set, args.argmax_zero_labels)
     else:
