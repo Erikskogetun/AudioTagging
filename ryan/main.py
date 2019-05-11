@@ -38,6 +38,7 @@ def main():
     parser_generate_data.add_argument('--n_mels', type=int, default=64)
     parser_generate_data.add_argument('--generate_mixes', action='store_true')
     parser_generate_data.add_argument('--mix_order', type=int, default=2)
+    parser_generate_data.add_argument('--debug_skip', action='store_true')
 
     # Add sub-parser for evaluation
     parser_evaluate = subparsers.add_parser('evaluate')
@@ -66,7 +67,8 @@ def main():
                                      args.remove_silence,
                                      args.n_mels,
                                      args.generate_mixes,
-                                     args.mix_order)
+                                     args.mix_order,
+                                     args.debug_skip)
     elif args.mode == 'evaluate':
         evaluation.evaluate(args.model, args.test_set, args.argmax_zero_labels)
     else:

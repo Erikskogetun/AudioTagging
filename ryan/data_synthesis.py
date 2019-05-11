@@ -14,7 +14,10 @@ def generate_data(raw_data_path,
                   remove_silence=False,
                   n_mels=64,
                   generate_mixes=False,
-                  mix_order=2):
+                  mix_order=2,
+                  debug_skip=False):
+    if debug_skip:
+        print("DEBUG SKIP ENABLED")
     # it is expected that train_curated.csv is parallel to raw_data_path
 
     # Get filenames to target vector map
@@ -32,8 +35,10 @@ def generate_data(raw_data_path,
     print('looking at files in ' + raw_data_path)
     for root, dirs, files in os.walk(raw_data_path):
         for file in files:
-            # print(file)
             if not file.endswith('.wav'):
+                continue
+            if debug_skip:
+                train_set_files.append(file)
                 continue
             # Report which file we're on to stdout.
             file_count += 1
@@ -127,6 +132,7 @@ def _generate_mixes(train_set_files,
                     remove_silence=False,
                     n_mels=64,
                     mix_order=2):
+    print("In _generate_mixes")
     """
     Make and save mixes.
     """
