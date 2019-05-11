@@ -36,7 +36,7 @@ def main():
     parser_generate_data.add_argument('--test_frac', type=float, default=0.2)
     parser_generate_data.add_argument('--remove_silence', action='store_true')
     parser_generate_data.add_argument('--n_mels', type=int, default=64)
-    parser_generate_data.add_argument('--generate_mixes', action='store true')
+    parser_generate_data.add_argument('--generate_mixes', action='store_true')
     parser_generate_data.add_argument('--mix_order', type=int, default=2)
 
     # Add sub-parser for evaluation
