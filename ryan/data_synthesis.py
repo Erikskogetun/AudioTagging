@@ -117,6 +117,7 @@ def generate_data(raw_data_path,
     if generate_mixes:
         _generate_mixes(train_set_files=train_set_files,
                         filenames_to_labels=filenames_to_labels,
+                        input_path=raw_data_path,
                         output_path=output_path,
                         chunk_size=chunk_size,
                         remove_silence=remove_silence,
@@ -127,6 +128,7 @@ def generate_data(raw_data_path,
 # TODO: make remove_silence optional.
 def _generate_mixes(train_set_files,
                     filenames_to_labels,
+                    input_path,
                     output_path,
                     chunk_size=128,
                     remove_silence=False,
@@ -150,7 +152,7 @@ def _generate_mixes(train_set_files,
             tmp_files = ['tmp_' + str(x + 1) + '.wav' for x in range(len(files_in_mix))]
             for i, mix_file in enumerate(files_in_mix):
                 # print("Silence files in call: ", mix_file, tmp_files[i])
-                _remove_silence(mix_file, tmp_files[i])
+                _remove_silence(input_path + mix_file, tmp_files[i])
 
             # Sum them
             sum_file = 'tmp_sum.wav'
