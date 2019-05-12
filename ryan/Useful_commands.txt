@@ -10,7 +10,12 @@ python3 main.py train --input ../../chunked_data_silr/ --epochs 40 --batch 128 -
 python3 main.py evaluate --model train_output/temp_for_debugging.h5 --test_set ../../chunked_data/ --argmax_zero_labels
 
 
+TODO: NOTE THAT NORMALIZATION OF AUDIO FILES IS TAKING PLACE BEFORE SUMMING OF MIXES, THIS MIGHT BE CAUSEING CLIPPING. SOMEONE SHOULD IVESTIGATE THIS AND POTENTIALLY EDIT SOX COMMANDS TO DO DIFFERENT NORMALIZATION OR SUMMATION STRATEGIES.
 
 --- new 
-
+# Generates data with mix orders 1 (so no mixing) 2 (pairs), and 3 (triples). Saves all files to ../../silr_mix_3_data/
 python3 main.py generate_data --input ../../train_curated/ --output ../../silr_mix_3_data/ --remove_silence --generate_mixes --mix_order 3
+
+# Trains model with mix orders 1, 2, and 3. Note validation set I think is randomly selected after all orders are loaded so validation accuracy might be reported as higher than true accuracy.
+python3 main.py train --input ../../silr_mix_3_data/ --epochs 2 --batch 128 --output mix_3 --extra_chunks --mix_order 3
+
