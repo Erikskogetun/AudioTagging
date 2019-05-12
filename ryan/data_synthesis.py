@@ -132,18 +132,15 @@ def _generate_mixes(train_set_files,
                     remove_silence=False,
                     n_mels=64,
                     mix_order=2):
-    print("In _generate_mixes")
+    print("Generating mixes.")
     """
     Make and save mixes.
     """
-    for n in range(2, mix_order):
+    for n in range(2, mix_order + 1):
         mixes_chunks = []
         mixes_labels = []
         # n is number sounds in mix. n=2 denotes pairs, n=3 denotes triples, ect.
         for mix_number in range(len(train_set_files)):
-            # Print status.
-            # print("\r", 'Generating ' + str(mix_number) + ' of '
-            #       + str(len(train_set_files)) + 'for mix order ' + str(n), end="")
 
             files_in_mix = random.sample(train_set_files, n)
             print("\r", 'Mix ' + str(mix_number) + ' of ' + str(len(train_set_files)) + '. Mixing ' + str(files_in_mix), end="")
@@ -152,6 +149,7 @@ def _generate_mixes(train_set_files,
             # TODO: make this optional. Right now remove_silence is ignored and silence is removed regardless
             tmp_files = ['tmp_' + str(x + 1) + '.wav' for x in range(len(files_in_mix))]
             for i, mix_file in enumerate(files_in_mix):
+                # print("Silence files in call: ", mix_file, tmp_files[i])
                 _remove_silence(mix_file, tmp_files[i])
 
             # Sum them
