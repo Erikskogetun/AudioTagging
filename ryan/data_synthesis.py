@@ -17,8 +17,9 @@ def generate_data(raw_data_path,
                   mix_order=2,
                   debug_skip=False):
     if debug_skip:
-        print("DEBUG SKIP ENABLED")
-    # it is expected that train_curated.csv is parallel to raw_data_path
+        print("DEBUG SKIP ENABLED. SKIPPING ORDER 1 DATA!")
+
+    # Note: it is expected that train_curated.csv is parallel to raw_data_path
 
     # Get filenames to target vector map
     filenames_to_labels = _filenames_to_labels(raw_data_path + '../')
@@ -114,6 +115,12 @@ def generate_data(raw_data_path,
     np.save(output_path + 'test_labels', test_labels)
     print("Done!")
 
+    del train_main_chunks
+    del train_extra_chunks
+    del train_main_labels
+    del train_extra_labels
+    del test_chunks
+    del test_labels
     if generate_mixes:
         _generate_mixes(train_set_files=train_set_files,
                         filenames_to_labels=filenames_to_labels,
