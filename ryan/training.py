@@ -37,7 +37,7 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
         spec_files.append(input_path + 'train_extra_chunks.npy')
     if mix_order:
         for i in range(2, mix_order + 1):
-            target_files.append(input_path + 'mixes_chunks_' + str(i) + '.npy')
+            spec_files.append(input_path + 'mixes_chunks_' + str(i) + '.npy')
             target_files.append(input_path + 'mixes_labels_' + str(i) + '.npy')
     print("Loading target files: " + str(target_files))
     print("Loading spec files: " + str(spec_files))

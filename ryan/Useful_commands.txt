@@ -8,3 +8,9 @@ python3 -m pip install librosa
 python3 main.py train --input ../../chunked_data_silr/ --epochs 40 --batch 128 --output tmp --extra_chunks
 
 python3 main.py evaluate --model train_output/temp_for_debugging.h5 --test_set ../../chunked_data/ --argmax_zero_labels
+
+
+
+--- new 
+
+python3 main.py generate_data --input ../../train_curated/ --output ../../silr_mix_3_data/ --remove_silence --generate_mixes --mix_order 3
