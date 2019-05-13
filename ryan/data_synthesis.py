@@ -202,7 +202,7 @@ def _generate_mixes(train_set_files,
 
 
 def _remove_silence(file_path, aug_audio_file):
-    aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
+    aug_cmd = "norm -3 silence 1 0.025 0.15% norm -3 reverse silence 1 0.025 0.15% reverse"
     os.system("../../sox-14.4.2/src/sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
 
     assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
