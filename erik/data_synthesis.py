@@ -1,4 +1,62 @@
+import numpy as np
+import csv
+import os
+import librosa
+import random
 
+import matplotlib.pyplot as plt
+
+import subprocess
+
+labels_list = ['Bark', 'Raindrop', 'Finger_snapping', 'Run', 'Whispering', 'Acoustic_guitar', 'Strum', 'Hi-hat', 'Bass_drum', 'Crowd', 'Cheering', 'Frying_(food)', 'Chewing_and_mastication', 'Fart', 'Bass_guitar', 'Knock', 'Motorcycle', 'Stream', 'Male_singing', 'Crackle', 'Sigh', 'Burping_and_eructation', 'Female_singing', 'Tap', 'Female_speech_and_woman_speaking', 'Accelerating_and_revving_and_vroom', 'Clapping', 'Accordion', 'Zipper_(clothing)', 'Bus', 'Meow', 'Waves_and_surf', 'Microwave_oven', 'Child_speech_and_kid_speaking', 'Buzz', 'Car_passing_by', 'Toilet_flush', 'Purr', 'Church_bell', 'Electric_guitar', 'Marimba_and_xylophone', 'Trickle_and_dribble', 'Traffic_noise_and_roadway_noise', 'Harmonica', 'Male_speech_and_man_speaking', 'Slam', 'Keys_jangling', 'Sink_(filling_or_washing)', 'Water_tap_and_faucet', 'Squeak', 'Cricket', 'Fill_(with_liquid)', 'Skateboard', 'Shatter', 'Drawer_open_or_close', 'Race_car_and_auto_racing', 'Cupboard_open_or_close', 'Computer_keyboard', 'Writing', 'Sneeze', 'Drip', 'Bicycle_bell', 'Applause', 'Printer', 'Gong', 'Glockenspiel', 'Screaming', 'Yell', 'Cutlery_and_silverware', 'Walk_and_footsteps', 'Mechanical_fan', 'Gasp', 'Gurgling', 'Chink_and_clink', 'Tick-tock', 'Chirp_and_tweet', 'Hiss', 'Dishes_and_pots_and_pans', 'Bathtub_(filling_or_washing)', 'Scissors']
+
+
+def generate_data(raw_data_path,
+                  output_path,
+                  chunk_size=128,
+                  test_frac=0.2,
+                  remove_silence=False,
+                  n_mels=64,
+                  generate_mixes=False,
+                  mix_order=2,
+                  debug_skip=False):
+    if debug_skip:
+        print("DEBUG SKIP ENABLED. SKIPPING ORDER 1 DATA!")
+
+    # Note: it is expected that train_curated.csv is parallel to raw_data_path
+    # Get filenames to target vector map
+    filenames_to_labels = _filenames_to_labels(raw_data_path + '../')
+    print('Loaded labels of ' + str(len(filenames_to_labels.keys())) + ' files.')
+
+    train_main_chunks = []
+    train_extra_chunks = []
+    train_main_labels = []
+    train_extra_labels = []
+    test_chunks = []
+    test_labels = []
+    file_count = 0
+    train_set_files = []
+    print('looking at files in ' + raw_data_path)
+
+    for root, dirs, files in os.walk(raw_data_path):
+        for file in files:
+            if not file.endswith('.wav'):
+                continue
+            if debug_skip:
+                train_set_files.append(file)
+                continue
+            # Report which file we're on to stdout.
+            file_count += 1
+            if file_count % 25 == 0:
+                print("\r", str(file_count) + ' ' + file, end="")
+            file_path = os.path.join(root, file)
+
+            # Get target label vector for this file.
+            label = filenames_to_labels[file]
+            assert label
+
+            # Remove silence from audio file.
+            aug_audio_file = "tmp_sil.wav"
             if remove_silence:
                 _remove_silence(file_path, aug_audio_file)
                 file_path = aug_audio_file
@@ -91,9 +149,11 @@ def _generate_mixes(train_set_files,
     """
     Make and save mixes.
     """
+
     for n in range(2, mix_order + 1):
         mixes_chunks = []
         mixes_labels = []
+
         # n is number sounds in mix. n=2 denotes pairs, n=3 denotes triples, ect.
         for mix_number in range(len(train_set_files)):
 
@@ -101,15 +161,15 @@ def _generate_mixes(train_set_files,
             print("\r", 'Mix ' + str(mix_number) + ' of ' + str(len(train_set_files)) + '. Mixing ' + str(files_in_mix), end="")
 
             # Remove silence from each audio file
-            # TODO: make this optional. Right now remove_silence is ignored and silence is removed regardless
+            # TODO: make this optional. Right now ence is ignored and silence is removed regardless
             tmp_files = ['tmp_' + str(x + 1) + '.wav' for x in range(len(files_in_mix))]
             for i, mix_file in enumerate(files_in_mix):
                 # print("Silence files in call: ", mix_file, tmp_files[i])
-                _remove_silence(input_path + mix_file, tmp_files[i])
+                _remove_silence(input_path + mix_file, tmp_files[i], mix_number)
 
             # Sum them
             sum_file = 'tmp_sum.wav'
-            _sum_audio(tmp_files, sum_file)
+            _sum_audio(tmp_files, sum_file, mix_number)
 
             # Generate spectrogram
             # TODO: take params to allow non default arguments of _filename_to_spec
@@ -128,7 +188,7 @@ def _generate_mixes(train_set_files,
                     print('Tried to remove ' + f + ' but doesn\'t exist!')
 
             # Chunk the spectrogram (and just take first chunk)
-            mixed_chunk = _spectrogram_to_chunks(spectrogram, chunk_size)[0]
+            mixed_chunk_array = _spectrogram_to_chunks(spectrogram, chunk_size)
 
             # Generate new label
             individual_labels = [filenames_to_labels[f] for f in files_in_mix]
@@ -138,33 +198,69 @@ def _generate_mixes(train_set_files,
                 print("Generated mixed label: " + str(mixed_label))
 
             # Append current chunk and label to output.
-            mixes_chunks.append(mixed_chunk)
-            mixes_labels.append(mixed_label)
+            for mixed_chunk in mixed_chunk_array:
+                mixes_chunks.append(mixed_chunk)
+                mixes_labels.append(mixed_label)
 
         print("Saving mixes of order " + str(n) + "...")
         np.save(output_path + 'mixes_chunks_' + str(n), mixes_chunks)
         np.save(output_path + 'mixes_labels_' + str(n), mixes_labels)
         print("Done!")
 
+def _remove_silence(file_path, aug_audio_file, mix_number = None):
+    aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
 
-def _remove_silence(file_path, aug_audio_file):
-    aug_cmd = "norm -3 silence 1 0.025 0.15% norm -3 reverse silence 1 0.025 0.15% reverse"
-    os.system("../../sox-14.4.2/src/sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
+    subprocess.call('"../../sox-14.4.2/sox\"' + " \"" +  file_path  + "\" " + aug_audio_file + " " + aug_cmd)
 
-    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
+    # Use this only if you want to save for debugging or similar
+    # subprocess.call('"../../sox-14.4.2/sox\"' + " \"" +  file_path  + "\" " + "sumfiles/" + str(mix_number) + aug_audio_file + " " + aug_cmd)
+
+    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist! (while removing silence)"
 
 
 # TODO: this may cause clipping as files were normalized to -0.1 in silence removal stage.
 # TODO: Jim or someone: listen to some of the generated mixes and make sure there isn't clipping present when two or
 # more sounds overlap.
-def _sum_audio(audio_files, aug_audio_file):
-    cmd = "../../sox-14.4.2/src/sox -m "
-    for f in audio_files:
-        cmd = cmd + f + " "
-    cmd = cmd + aug_audio_file
-    os.system(cmd)
+def _sum_audio(audio_files, aug_audio_file, mix_number):
 
-    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
+    # Measure the length of all clips
+    # For some reason, there is sometimes clips lacking the duration-property.
+    lengths = np.zeros(len(audio_files))
+    for idx, f in enumerate(audio_files):
+        p = subprocess.Popen(['../../sox-14.4.2/sox', '--i', f], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+
+        length = str(output).split(' samples')[0].split(" ")[-1]
+        lengths[idx] = int(length)
+
+    len_argmax = lengths.argmax()
+    len_max = lengths.max()
+
+    generalcmd = '"../../sox-14.4.2/sox\" -G -m '
+    for idx, f in enumerate(audio_files):
+        multitimes = int(len_max/lengths[idx])
+        concat_cmd = '"../../sox-14.4.2/sox\" '
+
+        if multitimes > 1:
+            concat_cmd = '"../../sox-14.4.2/sox\" '
+            for i in range(0, multitimes):
+                concat_cmd = concat_cmd + f + " "
+
+            f = f.split(".wav")[0] + "_res.wav"
+            concat_cmd = concat_cmd + f
+            subprocess.call(concat_cmd)
+
+        generalcmd = generalcmd + f + " "
+
+    savecmd = generalcmd + "sumfiles/" + str(mix_number) + "sum.wav"
+    tempcmd = generalcmd + aug_audio_file
+
+    subprocess.call(tempcmd)
+
+    # Use this only if you want to save for debugging or similar
+    # subprocess.call(savecmd)
+
+    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist! (while summing audio)"
 
 
 def _spectrogram_to_chunks(spectrogram, chunk_size):
@@ -201,6 +297,10 @@ def _filename_to_spec(file_path, n_fft=1024, sr=44100, mono=True, log_spec=False
 
     # Apply mel filterbank.
     spectrogram = librosa.feature.melspectrogram(S=stft, sr=sr, n_mels=n_mels, fmax=fmax).T
+
+    # Visualize
+    #plt.pcolormesh(spectrogram.T)
+    #plt.show()
 
     assert spectrogram.shape[1] == n_mels
     return spectrogram

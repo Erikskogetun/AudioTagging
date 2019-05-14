@@ -1,0 +1,225 @@
+------------- vgg13 40-epochs all-chunks silence-removed ---------------
+
+Train on 15849 samples, validate on 2797 samples
+Epoch 1/40
+2019-05-07 13:16:00.262939: I tensorflow/stream_executor/dso_loader.cc:153] successfully opened CUDA library libcublas.so.10.0 locally
+15849/15849 [==============================] - 91s 6ms/step - loss: 3.8877 - acc: 0.1334 - val_loss: 9.8408 - val_acc: 0.0479
+Epoch 2/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 2.6195 - acc: 0.3843 - val_loss: 5.8854 - val_acc: 0.2077
+Epoch 3/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 1.8820 - acc: 0.5484 - val_loss: 3.1130 - val_acc: 0.3429
+Epoch 4/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 1.3756 - acc: 0.6682 - val_loss: 3.4053 - val_acc: 0.3504
+Epoch 5/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 1.0472 - acc: 0.7416 - val_loss: 3.0714 - val_acc: 0.4044
+Epoch 6/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.8206 - acc: 0.7942 - val_loss: 3.1755 - val_acc: 0.4079
+Epoch 7/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.6306 - acc: 0.8418 - val_loss: 2.3021 - val_acc: 0.5545
+Epoch 8/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.5087 - acc: 0.8703 - val_loss: 2.2410 - val_acc: 0.5703
+Epoch 9/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.4332 - acc: 0.8866 - val_loss: 2.3902 - val_acc: 0.5599
+Epoch 10/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3915 - acc: 0.8980 - val_loss: 2.2663 - val_acc: 0.5846
+Epoch 11/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3611 - acc: 0.9047 - val_loss: 2.2238 - val_acc: 0.6096
+Epoch 12/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3474 - acc: 0.9062 - val_loss: 2.2859 - val_acc: 0.6146
+Epoch 13/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3233 - acc: 0.9082 - val_loss: 2.2637 - val_acc: 0.6042
+Epoch 14/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3053 - acc: 0.9160 - val_loss: 2.0068 - val_acc: 0.6471
+Epoch 15/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3310 - acc: 0.9045 - val_loss: 2.9462 - val_acc: 0.5073
+Epoch 16/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3227 - acc: 0.9090 - val_loss: 2.5341 - val_acc: 0.5749
+Epoch 17/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3321 - acc: 0.9046 - val_loss: 2.3547 - val_acc: 0.6164
+Epoch 18/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3104 - acc: 0.9125 - val_loss: 2.4439 - val_acc: 0.6207
+Epoch 19/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2980 - acc: 0.9143 - val_loss: 2.6665 - val_acc: 0.5896
+Epoch 20/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2903 - acc: 0.9092 - val_loss: 2.1879 - val_acc: 0.6275
+Epoch 21/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2783 - acc: 0.9135 - val_loss: 2.3210 - val_acc: 0.6107
+Epoch 22/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2756 - acc: 0.9261 - val_loss: 2.2498 - val_acc: 0.6557
+Epoch 23/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3164 - acc: 0.9112 - val_loss: 3.5038 - val_acc: 0.5424
+Epoch 24/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.4268 - acc: 0.8826 - val_loss: 3.7278 - val_acc: 0.4809
+Epoch 25/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3346 - acc: 0.9008 - val_loss: 2.4325 - val_acc: 0.6264
+Epoch 26/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2836 - acc: 0.9155 - val_loss: 2.4612 - val_acc: 0.6192
+Epoch 27/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2712 - acc: 0.9137 - val_loss: 2.4493 - val_acc: 0.6310
+Epoch 28/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2706 - acc: 0.9137 - val_loss: 2.2600 - val_acc: 0.6578
+Epoch 29/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2623 - acc: 0.9172 - val_loss: 2.1862 - val_acc: 0.6668
+Epoch 30/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2589 - acc: 0.9151 - val_loss: 2.2395 - val_acc: 0.6675
+Epoch 31/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2620 - acc: 0.9132 - val_loss: 2.2010 - val_acc: 0.6693
+Epoch 32/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2598 - acc: 0.9141 - val_loss: 2.2862 - val_acc: 0.6525
+Epoch 33/40
+15849/15849 [==============================] - 74s 5ms/step - loss: 0.2971 - acc: 0.9098 - val_loss: 3.8497 - val_acc: 0.4930
+Epoch 34/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.4038 - acc: 0.8885 - val_loss: 6.1297 - val_acc: 0.3922
+Epoch 35/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.4017 - acc: 0.8821 - val_loss: 3.6755 - val_acc: 0.5270
+Epoch 36/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.3293 - acc: 0.9074 - val_loss: 2.8123 - val_acc: 0.6035
+Epoch 37/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2738 - acc: 0.9120 - val_loss: 2.3793 - val_acc: 0.6600
+Epoch 38/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2588 - acc: 0.9181 - val_loss: 2.2558 - val_acc: 0.6693
+Epoch 39/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2561 - acc: 0.9139 - val_loss: 2.1847 - val_acc: 0.6768
+Epoch 40/40
+15849/15849 [==============================] - 73s 5ms/step - loss: 0.2547 - acc: 0.9187 - val_loss: 2.1117 - val_acc: 0.6789
+
+
+
+
+--------------- sil rm and all chunks. binary cross entropy loss -----------------
+
+
+Epoch 23/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 0.0027 - binary_accuracy: 0.9991 - exact_pred: 0.9387 - val_loss: 0.0414 - val_binary_accuracy: 0.9916 - val_exact_pred: 0.5316
+Epoch 24/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 7.2900e-04 - binary_accuracy: 0.9998 - exact_pred: 0.9877 - val_loss: 0.0335 - val_binary_accuracy: 0.9930 - val_exact_pred: 0.6003
+Epoch 25/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 2.6680e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9973 - val_loss: 0.0314 - val_binary_accuracy: 0.9936 - val_exact_pred: 0.6339
+Epoch 26/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 1.5600e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9987 - val_loss: 0.0340 - val_binary_accuracy: 0.9929 - val_exact_pred: 0.6060
+Epoch 27/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 1.8986e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9976 - val_loss: 0.0333 - val_binary_accuracy: 0.9935 - val_exact_pred: 0.6178
+Epoch 28/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 9.0686e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9995 - val_loss: 0.0324 - val_binary_accuracy: 0.9937 - val_exact_pred: 0.6325
+Epoch 29/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 5.0480e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9997 - val_loss: 0.0319 - val_binary_accuracy: 0.9939 - val_exact_pred: 0.6410
+Epoch 30/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 5.3377e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9997 - val_loss: 0.0309 - val_binary_accuracy: 0.9942 - val_exact_pred: 0.6439
+Epoch 31/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 4.1897e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9997 - val_loss: 0.0326 - val_binary_accuracy: 0.9939 - val_exact_pred: 0.6432
+Epoch 32/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 2.9345e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9999 - val_loss: 0.0323 - val_binary_accuracy: 0.9940 - val_exact_pred: 0.6428
+Epoch 33/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 5.8476e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9992 - val_loss: 0.0360 - val_binary_accuracy: 0.9932 - val_exact_pred: 0.6056
+Epoch 34/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 1.4592e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9983 - val_loss: 0.0363 - val_binary_accuracy: 0.9933 - val_exact_pred: 0.6142
+Epoch 35/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 0.0069 - binary_accuracy: 0.9977 - exact_pred: 0.8587 - val_loss: 0.1702 - val_binary_accuracy: 0.9854 - val_exact_pred: 0.1119
+Epoch 36/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 0.0069 - binary_accuracy: 0.9977 - exact_pred: 0.8493 - val_loss: 0.0636 - val_binary_accuracy: 0.9893 - val_exact_pred: 0.3611
+Epoch 37/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 0.0013 - binary_accuracy: 0.9996 - exact_pred: 0.9731 - val_loss: 0.0390 - val_binary_accuracy: 0.9921 - val_exact_pred: 0.5574
+Epoch 38/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 4.2824e-04 - binary_accuracy: 0.9999 - exact_pred: 0.9933 - val_loss: 0.0332 - val_binary_accuracy: 0.9933 - val_exact_pred: 0.6121
+Epoch 39/40
+15849/15849 [==============================] - 78s 5ms/step - loss: 1.5287e-04 - binary_accuracy: 1.0000 - exact_pred: 0.9986 - val_loss: 0.0324 - val_binary_accuracy: 0.9934 - val_exact_pred: 0.6239
+Epoch 40/40
+15849/15849 [==============================] - 79s 5ms/step - loss: 9.2872e-05 - binary_accuracy: 1.0000 - exact_pred: 0.9993 - val_loss: 0.0314 - val_binary_accuracy: 0.9938 - val_exact_pred: 0.6403
+
+
+
+
+
+
+
+
+
+-----------------------
+
+python3 main.py train --input ../../chunked_data_silr/ --epochs 50 --batch 128 --output silr_binaryce_50_epoch --extra_chun
+ks
+
+
+Epoch 33/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.6225e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0328 - val_binary_accuracy: 0.9
+939 - val_full_multi_label_metric: 0.6335
+Epoch 34/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.4197e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0331 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 35/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.3077e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0333 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6378
+Epoch 36/50
+15849/15849 [==============================] - 75s 5ms/step - loss: 1.1897e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0334 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6403
+Epoch 37/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.1295e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0335 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6414
+Epoch 38/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 1.0396e-05 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0338 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 39/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 9.8501e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0337 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6396
+Epoch 40/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 8.7643e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0340 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 41/50
+15849/15849 [==============================] - 75s 5ms/step - loss: 8.1634e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0344 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6396
+Epoch 42/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 7.5383e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0344 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6378
+Epoch 43/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 7.0141e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0346 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6353
+Epoch 44/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 6.5834e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0348 - val_binary_accuracy: 0.9
+941 - val_full_multi_label_metric: 0.6393
+Epoch 45/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 6.0636e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0348 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6375
+Epoch 46/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 5.5970e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0349 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6403
+Epoch 47/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 5.2051e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0352 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6382
+Epoch 48/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 4.9602e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0352 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6368
+Epoch 49/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 4.4757e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0355 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6346
+Epoch 50/50
+15849/15849 [==============================] - 76s 5ms/step - loss: 4.2303e-06 - binary_accuracy: 1.0000 - full_multi_label_metric: 1.0000 - val_loss: 0.0359 - val_binary_accuracy: 0.9
+940 - val_full_multi_label_metric: 0.6385
+
+Accuracy is much worse than val_full_multi_label_metric but chunk accuacy is lower? How does that work?
+
+With argmax_zero_labels:
+Accuracy: 0.5949748743718593
+Chunk Accuracy: 0.4239948398193937
+Single-Label target Accuracy: 0.6363636363636364
+Multi-Label target Accuracy: 0.3581081081081081
+Fraction multi-label: 0.1487437185929648
+Multi-label true - Single-label prediction:  57
+Multi-label true - Multi-label prediction:  91
+Single-label true - Single-label prediction:  721
+Single-label true - Multi-label prediction:  126
+Single-label true - Zero prediction:  0
+Multi-label true - Zero prediction:  0
+
+Without:
+Accuracy: 0.5346733668341709
+Chunk Accuracy: 0.4239948398193937
+Single-Label target Accuracy: 0.5655253837072018
+Multi-Label target Accuracy: 0.3581081081081081
+Fraction multi-label: 0.1487437185929648
+Multi-label true - Single-label prediction:  31
+Multi-label true - Multi-label prediction:  91
+Single-label true - Single-label prediction:  561
+Single-label true - Multi-label prediction:  126
+Single-label true - Zero prediction:  160
+Multi-label true - Zero prediction:  26
+
