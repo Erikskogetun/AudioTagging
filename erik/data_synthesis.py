@@ -210,7 +210,7 @@ def _generate_mixes(train_set_files,
 def _remove_silence(file_path, aug_audio_file, mix_number = None):
     aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
 
-    subprocess.call('"../../sox-14.4.2/sox\"' + " \"" +  file_path  + "\" " + aug_audio_file + " " + aug_cmd)
+    subprocess.call('"../../sox-14.4.2/src/sox\"' + " \"" +  file_path  + "\" " + aug_audio_file + " " + aug_cmd)
 
     # Use this only if you want to save for debugging or similar
     # subprocess.call('"../../sox-14.4.2/sox\"' + " \"" +  file_path  + "\" " + "sumfiles/" + str(mix_number) + aug_audio_file + " " + aug_cmd)
@@ -227,7 +227,7 @@ def _sum_audio(audio_files, aug_audio_file, mix_number):
     # For some reason, there is sometimes clips lacking the duration-property.
     lengths = np.zeros(len(audio_files))
     for idx, f in enumerate(audio_files):
-        p = subprocess.Popen(['../../sox-14.4.2/sox', '--i', f], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['../../sox-14.4.2/src/sox', '--i', f], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, err = p.communicate(b"input data that is passed to subprocess' stdin")
 
         length = str(output).split(' samples')[0].split(" ")[-1]
@@ -236,13 +236,13 @@ def _sum_audio(audio_files, aug_audio_file, mix_number):
     len_argmax = lengths.argmax()
     len_max = lengths.max()
 
-    generalcmd = '"../../sox-14.4.2/sox\" -G -m '
+    generalcmd = '"../../sox-14.4.2/src/sox\" -G -m '
     for idx, f in enumerate(audio_files):
         multitimes = int(len_max/lengths[idx])
-        concat_cmd = '"../../sox-14.4.2/sox\" '
+        concat_cmd = '"../../sox-14.4.2/src/sox\" '
 
         if multitimes > 1:
-            concat_cmd = '"../../sox-14.4.2/sox\" '
+            concat_cmd = '"../../sox-14.4.2/src/sox\" '
             for i in range(0, multitimes):
                 concat_cmd = concat_cmd + f + " "
 
