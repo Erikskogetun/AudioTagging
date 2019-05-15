@@ -240,10 +240,10 @@ def _sum_audio(audio_files, aug_audio_file, mix_number):
     generalcmd = '../../sox-14.4.2/src/sox\ -G -m '
     for idx, f in enumerate(audio_files):
         multitimes = int(len_max/lengths[idx])
-        concat_cmd = '"../../sox-14.4.2/src/sox\" '
+        concat_cmd = '../../sox-14.4.2/src/sox\ '
 
         if multitimes > 1:
-            concat_cmd = '../../sox-14.4.2/src/sox '
+            concat_cmd = '../../sox-14.4.2/src/sox\ '
             for i in range(0, multitimes):
                 concat_cmd = concat_cmd + f + " "
 
