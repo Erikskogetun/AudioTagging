@@ -237,28 +237,28 @@ def _sum_audio(audio_files, aug_audio_file, mix_number):
     len_argmax = lengths.argmax()
     len_max = lengths.max()
 
-    generalcmd = '../../sox-14.4.2/src/sox\ -G -m '
+    generalcmd = '"../../sox-14.4.2/src/sox\" -G -m '
     for idx, f in enumerate(audio_files):
         multitimes = int(len_max/lengths[idx])
-        concat_cmd = '../../sox-14.4.2/src/sox\ '
+        concat_cmd = '"../../sox-14.4.2/src/sox\" '
 
         if multitimes > 1:
-            concat_cmd = '../../sox-14.4.2/src/sox\ '
+            concat_cmd = '"../../sox-14.4.2/src/sox\" '
             for i in range(0, multitimes):
                 concat_cmd = concat_cmd + f + " "
 
             f = f.split(".wav")[0] + "_res.wav"
             concat_cmd = concat_cmd + f
-            subprocess.call(concat_cmd)
-            #os.system(concat_cmd)
+            #subprocess.call(concat_cmd)
+            os.system(concat_cmd)
 
         generalcmd = generalcmd + f + " "
 
     savecmd = generalcmd + "sumfiles/" + str(mix_number) + "sum.wav"
     tempcmd = generalcmd + aug_audio_file
 
-    #os.system(tempcmd)
-    subprocess.call(tempcmd)
+    os.system(tempcmd)
+    #subprocess.call(tempcmd)
 
     # Use this only if you want to save for debugging or similar
     # subprocess.call(savecmd)
