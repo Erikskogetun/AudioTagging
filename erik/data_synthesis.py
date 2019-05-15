@@ -6,7 +6,7 @@ import random
 
 import matplotlib.pyplot as plt
 
-#import subprocess
+import subprocess
 
 labels_list = ['Bark', 'Raindrop', 'Finger_snapping', 'Run', 'Whispering', 'Acoustic_guitar', 'Strum', 'Hi-hat', 'Bass_drum', 'Crowd', 'Cheering', 'Frying_(food)', 'Chewing_and_mastication', 'Fart', 'Bass_guitar', 'Knock', 'Motorcycle', 'Stream', 'Male_singing', 'Crackle', 'Sigh', 'Burping_and_eructation', 'Female_singing', 'Tap', 'Female_speech_and_woman_speaking', 'Accelerating_and_revving_and_vroom', 'Clapping', 'Accordion', 'Zipper_(clothing)', 'Bus', 'Meow', 'Waves_and_surf', 'Microwave_oven', 'Child_speech_and_kid_speaking', 'Buzz', 'Car_passing_by', 'Toilet_flush', 'Purr', 'Church_bell', 'Electric_guitar', 'Marimba_and_xylophone', 'Trickle_and_dribble', 'Traffic_noise_and_roadway_noise', 'Harmonica', 'Male_speech_and_man_speaking', 'Slam', 'Keys_jangling', 'Sink_(filling_or_washing)', 'Water_tap_and_faucet', 'Squeak', 'Cricket', 'Fill_(with_liquid)', 'Skateboard', 'Shatter', 'Drawer_open_or_close', 'Race_car_and_auto_racing', 'Cupboard_open_or_close', 'Computer_keyboard', 'Writing', 'Sneeze', 'Drip', 'Bicycle_bell', 'Applause', 'Printer', 'Gong', 'Glockenspiel', 'Screaming', 'Yell', 'Cutlery_and_silverware', 'Walk_and_footsteps', 'Mechanical_fan', 'Gasp', 'Gurgling', 'Chink_and_clink', 'Tick-tock', 'Chirp_and_tweet', 'Hiss', 'Dishes_and_pots_and_pans', 'Bathtub_(filling_or_washing)', 'Scissors']
 
