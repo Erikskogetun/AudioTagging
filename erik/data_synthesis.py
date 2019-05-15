@@ -256,7 +256,8 @@ def _sum_audio(audio_files, aug_audio_file, mix_number):
     savecmd = generalcmd + "sumfiles/" + str(mix_number) + "sum.wav"
     tempcmd = generalcmd + aug_audio_file
 
-    subprocess.call(tempcmd)
+    os.system(tempcmd)
+    #subprocess.call(tempcmd)
 
     # Use this only if you want to save for debugging or similar
     # subprocess.call(savecmd)
