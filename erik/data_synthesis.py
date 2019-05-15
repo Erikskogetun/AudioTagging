@@ -209,8 +209,9 @@ def _generate_mixes(train_set_files,
 
 def _remove_silence(file_path, aug_audio_file, mix_number = None):
     aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
-
-    subprocess.call('"../../sox-14.4.2/src/sox\"' + " \"" +  file_path  + "\" " + aug_audio_file + " " + aug_cmd)
+    
+    os.system("../../sox-14.4.2/src/sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
+    #subprocess.call('"../../sox-14.4.2/src/sox\"' + " \"" +  file_path  + "\" " + aug_audio_file + " " + aug_cmd)
 
     # Use this only if you want to save for debugging or similar
     # subprocess.call('"../../sox-14.4.2/sox\"' + " \"" +  file_path  + "\" " + "sumfiles/" + str(mix_number) + aug_audio_file + " " + aug_cmd)
