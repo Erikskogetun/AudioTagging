@@ -1,4 +1,58 @@
+import numpy as np
+import csv
+import os
+import librosa
+import random
 
+labels_list = ['Bark', 'Raindrop', 'Finger_snapping', 'Run', 'Whispering', 'Acoustic_guitar', 'Strum', 'Hi-hat', 'Bass_drum', 'Crowd', 'Cheering', 'Frying_(food)', 'Chewing_and_mastication', 'Fart', 'Bass_guitar', 'Knock', 'Motorcycle', 'Stream', 'Male_singing', 'Crackle', 'Sigh', 'Burping_and_eructation', 'Female_singing', 'Tap', 'Female_speech_and_woman_speaking', 'Accelerating_and_revving_and_vroom', 'Clapping', 'Accordion', 'Zipper_(clothing)', 'Bus', 'Meow', 'Waves_and_surf', 'Microwave_oven', 'Child_speech_and_kid_speaking', 'Buzz', 'Car_passing_by', 'Toilet_flush', 'Purr', 'Church_bell', 'Electric_guitar', 'Marimba_and_xylophone', 'Trickle_and_dribble', 'Traffic_noise_and_roadway_noise', 'Harmonica', 'Male_speech_and_man_speaking', 'Slam', 'Keys_jangling', 'Sink_(filling_or_washing)', 'Water_tap_and_faucet', 'Squeak', 'Cricket', 'Fill_(with_liquid)', 'Skateboard', 'Shatter', 'Drawer_open_or_close', 'Race_car_and_auto_racing', 'Cupboard_open_or_close', 'Computer_keyboard', 'Writing', 'Sneeze', 'Drip', 'Bicycle_bell', 'Applause', 'Printer', 'Gong', 'Glockenspiel', 'Screaming', 'Yell', 'Cutlery_and_silverware', 'Walk_and_footsteps', 'Mechanical_fan', 'Gasp', 'Gurgling', 'Chink_and_clink', 'Tick-tock', 'Chirp_and_tweet', 'Hiss', 'Dishes_and_pots_and_pans', 'Bathtub_(filling_or_washing)', 'Scissors']
+
+
+def generate_data(raw_data_path,
+                  output_path,
+                  chunk_size=128,
+                  test_frac=0.2,
+                  remove_silence=False,
+                  n_mels=64,
+                  generate_mixes=False,
+                  mix_order=2,
+                  debug_skip=False):
+    if debug_skip:
+        print("DEBUG SKIP ENABLED. SKIPPING ORDER 1 DATA!")
+
+    # Note: it is expected that train_curated.csv is parallel to raw_data_path
+
+    # Get filenames to target vector map
+    filenames_to_labels = _filenames_to_labels(raw_data_path + '../')
+    print('Loaded labels of ' + str(len(filenames_to_labels.keys())) + ' files.')
+
+    train_main_chunks = []
+    train_extra_chunks = []
+    train_main_labels = []
+    train_extra_labels = []
+    test_chunks = []
+    test_labels = []
+    file_count = 0
+    train_set_files = []
+    print('looking at files in ' + raw_data_path)
+    for root, dirs, files in os.walk(raw_data_path):
+        for file in files:
+            if not file.endswith('.wav'):
+                continue
+            if debug_skip:
+                train_set_files.append(file)
+                continue
+            # Report which file we're on to stdout.
+            file_count += 1
+            if file_count % 25 == 0:
+                print("\r", str(file_count) + ' ' + file, end="")
+            file_path = os.path.join(root, file)
+
+            # Get target label vector for this file.
+            label = filenames_to_labels[file]
+            assert label
+
+            # Remove silence from audio file.
+            aug_audio_file = "tmp_sil.wav"
             if remove_silence:
                 _remove_silence(file_path, aug_audio_file)
                 file_path = aug_audio_file
@@ -148,7 +202,7 @@ def _generate_mixes(train_set_files,
 
 
 def _remove_silence(file_path, aug_audio_file):
-    aug_cmd = "norm -3 silence 1 0.025 0.15% norm -3 reverse silence 1 0.025 0.15% reverse"
+    aug_cmd = "norm -0.1 silence 1 0.025 0.15% norm -0.1 reverse silence 1 0.025 0.15% reverse"
     os.system("../../sox-14.4.2/src/sox %s %s %s" % (file_path, aug_audio_file, aug_cmd))
 
     assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist!"
