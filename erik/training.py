@@ -48,8 +48,10 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     targets = np.load(target_files[0])
     specs = np.load(spec_files[0])
     for i in range(1, len(target_files)):
-        targets = np.concatenate((targets, np.load(target_files[i])))
-        specs = np.concatenate((specs, np.load(spec_files[i])))
+        a = np.load(target_files[i])
+        b = np.load(spec_files[i])
+        targets = np.concatenate((targets, a))
+        specs = np.concatenate((specs, b))
 
     assert len(targets) == len(specs)
 
