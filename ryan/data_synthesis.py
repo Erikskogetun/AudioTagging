@@ -15,7 +15,8 @@ def generate_data(raw_data_path,
                   n_mels=64,
                   generate_mixes=False,
                   mix_order=2,
-                  debug_skip=False):
+                  debug_skip=False,
+                  n_mixes=None):
     if debug_skip:
         print("DEBUG SKIP ENABLED. SKIPPING ORDER 1 DATA!")
 
@@ -129,7 +130,8 @@ def generate_data(raw_data_path,
                         chunk_size=chunk_size,
                         remove_silence=remove_silence,
                         n_mels=n_mels,
-                        mix_order=mix_order)
+                        mix_order=mix_order,
+                        n_mixes=n_mixes)
 
 
 # TODO: make remove_silence optional.
@@ -140,7 +142,8 @@ def _generate_mixes(train_set_files,
                     chunk_size=128,
                     remove_silence=False,
                     n_mels=64,
-                    mix_order=2):
+                    mix_order=2,
+                    n_mixes=None):
     print("Generating mixes.")
     """
     Make and save mixes.
@@ -149,7 +152,10 @@ def _generate_mixes(train_set_files,
         mixes_chunks = []
         mixes_labels = []
         # n is number sounds in mix. n=2 denotes pairs, n=3 denotes triples, ect.
-        for mix_number in range(len(train_set_files)):
+        n_mixes_to_generate = len(train_set_files)
+        if n_mixes:
+            n_mixes_to_generate = n_mixes
+        for mix_number in range(n_mixes_to_generate):
 
             files_in_mix = random.sample(train_set_files, n)
             print("\r", 'Mix ' + str(mix_number) + ' of ' + str(len(train_set_files)) + '. Mixing ' + str(files_in_mix), end="")
