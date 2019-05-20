@@ -45,11 +45,11 @@ def train(model_name, input_path, output_file, epochs, batch_size, val_split, ex
     assert len(target_files) == len(spec_files)
 
     # Load files
-    targets = np.load(target_files[0])
-    specs = np.load(spec_files[0])
+    targets = np.load(target_files[0]).astype("float32")
+    specs = np.load(spec_files[0]).astype("float32")
     for i in range(1, len(target_files)):
-        a = np.load(target_files[i])
-        b = np.load(spec_files[i])
+        a = np.load(target_files[i]).astype("float32")
+        b = np.load(spec_files[i]).astype("float32")
         targets = np.concatenate((targets, a))
         specs = np.concatenate((specs, b))
 
