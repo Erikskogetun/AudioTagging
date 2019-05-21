@@ -215,7 +215,7 @@ def _remove_silence(file_path, aug_audio_file):
      # print(good)
     #else:
      # continue
-    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist! (while removing silence)"
+    #assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist! (while removing silence)"
 
 # TODO: this may cause clipping as files were normalized to -0.1 in silence removal stage.
 # TODO: Jim or someone: listen to some of the generated mixes and make sure there isn't clipping present when two or
@@ -232,7 +232,7 @@ def _sum_audio(audio_files, aug_audio_file):
     #else:
       #continue
 
-    assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist! (while removing silence)"
+    #assert os.path.exists(aug_audio_file), "SOX Problem ... clipped wav does not exist! (while removing silence)"
 
 
 def _spectrogram_to_chunks(spectrogram, chunk_size):
